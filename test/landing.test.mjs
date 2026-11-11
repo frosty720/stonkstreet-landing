@@ -60,6 +60,16 @@ test('the page shows the game itself: a real screenshot of the trade desk, sized
 	assert.match(html, /\.shot\{image-rendering:auto\}/);
 });
 
+test('Telegram is linked: the news channel from the hero line and the footer, the chat group from the footer', () => {
+	const hrefs = anchors(html).map((a) => a.href);
+	assert.equal(hrefs.filter((h) => h === 'https://t.me/stonkstreetmeme').length, 2);
+	assert.equal(hrefs.filter((h) => h === 'https://t.me/stonkstreetexchange').length, 1);
+	const footer = html.slice(html.indexOf('<nav aria-label="Footer"'));
+	assert.deepEqual(anchors(footer).filter((a) => a.href?.startsWith('https://t.me/')).map((a) => a.text), ['Telegram news', 'Telegram chat']);
+	// Outside links open in a new tab without handing the new page a way back to this one.
+	for (const a of anchors(html).filter((a) => a.href?.startsWith('https://t.me/'))) assert.match(a.attrs, /target="_blank" rel="noopener"/);
+});
+
 test('GREED is explained: the holds, the GOOGL pair and where a payment goes, which adds up to all of it', () => {
 	const greed = html.slice(html.indexOf('<section id="greed"'), html.indexOf('<section id="prizes"'));
 	for (const words of ['100,000 GREED', '1,000,000 GREED', 'GOOGL on Base', 'Paying in GREED sends it straight to the treasury.']) assert.ok(greed.includes(words), words);
