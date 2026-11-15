@@ -10,6 +10,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const html = readFileSync(join(root, 'index.html'), 'utf8');
+const spanish = readFileSync(join(root, 'es/index.html'), 'utf8');
 const X = 'https://x.com/StonkStreetMeme';
 const PLAY = 'https://play.stonkstreet.exchange';
 const CHROME = ['/usr/bin/google-chrome', '/usr/bin/chromium', '/usr/bin/chromium-browser'].find(existsSync);
@@ -19,10 +20,10 @@ const playButtons = (page) => anchors(page).filter((a) => /\bdata-play\b/.test(a
 const isHidden = (page, marker) => new RegExp(`<[a-z]+[^>]*\\b${marker}\\b[^>]*\\bhidden\\b`).test(page);
 
 /** The page as Chrome leaves it after its script has run, with `edit` applied to the launch switch first. */
-function rendered(edit) {
+function rendered(edit, page = html) {
 	const dir = mkdtempSync(join(tmpdir(), 'landing-'));
 	const file = join(dir, 'index.html');
-	writeFileSync(file, edit(html));
+	writeFileSync(file, edit(page));
 	return execFileSync(CHROME, ['--headless=new', '--no-sandbox', '--disable-gpu', '--virtual-time-budget=2000', '--dump-dom', `file://${file}`], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
 }
 
@@ -134,4 +135,123 @@ test('a contract address shows it with a buy link; without a buy link the button
 	const addressOnly = rendered((h) => h.replace("greedAddress: '',", `greedAddress: '${address}',`));
 	assert.equal(isHidden(addressOnly, 'data-greed-live'), false);
 	assert.equal(isHidden(addressOnly, 'data-greed-buy'), true);
+});
+
+// The Spanish page (owner 2026-11-15) is a translated copy at /es/. These keep it from drifting away from the English one.
+/** Every tag in order with its styling, which no translation touches. */
+const skeleton = (page) => [...page.matchAll(/<(\/?[a-z0-9]+)\b([^>]*)>/g)].map(([, tag, attrs]) => `${tag} ${/style="([^"]*)"/.exec(attrs)?.[1] ?? ''}`);
+/** The words on show, without the script and the styles. */
+const words = (page) => page.replace(/<(script|style)[\s\S]*?<\/\1>/g, '').split(/<[^>]+>/).map((t) => t.trim()).filter(Boolean);
+const launchSwitch = (page) => /const LAUNCH = \{[\s\S]*?\};/.exec(page)?.[0];
+
+test('the Spanish page is the English page translated: the same build, tag for tag', () => {
+	assert.match(spanish, /<html lang="es">/);
+	assert.deepEqual(skeleton(spanish), skeleton(html));
+});
+
+test('the Spanish page leaves nothing in English but names, numbers and the coin', () => {
+	const kept = new Set(words(html).filter((t) => words(spanish).includes(t)));
+	const names = ['STONKSTREET', 'StonkStreet', 'STONKSTREET EXCHANGE', 'MR. GREED', 'GREED', '@StonkStreetMeme', 'Telegram', '■'];
+	assert.deepEqual([...kept].filter((t) => !names.includes(t) && !/^[\d,]+%?$/.test(t)), []);
+});
+
+test('the Spanish page states the same numbers as the English one, in the same order', () => {
+	// Colombian Spanish groups thousands with a point where English uses a comma.
+	const numbers = (page) => words(page).join(' ').match(/\d[\d.,]*\d%?|\d%?/g).map((n) => n.replace(/[.,]/g, ''));
+	assert.deepEqual(numbers(spanish), numbers(html));
+	assert.ok(words(spanish).includes('100.000 GREED') && words(spanish).includes('1.000.000 GREED'));
+});
+
+test('each language links to the other, and tells search engines about both', () => {
+	for (const page of [html, spanish]) {
+		assert.match(page, /<link rel="alternate" hreflang="en" href="https:\/\/stonkstreet\.exchange\/">/);
+		assert.match(page, /<link rel="alternate" hreflang="es" href="https:\/\/stonkstreet\.exchange\/es\/">/);
+	}
+	assert.deepEqual(anchors(html).filter((a) => /hreflang/.test(a.attrs)).map((a) => [a.href, a.text]), [['es/', 'ESPAÑOL']]);
+	assert.deepEqual(anchors(spanish).filter((a) => /hreflang/.test(a.attrs)).map((a) => [a.href, a.text]), [['../', 'ENGLISH']]);
+	assert.match(spanish, /<meta property="og:url" content="https:\/\/stonkstreet\.exchange\/es\/">/);
+});
+
+test('the Spanish page finds its pictures from one folder down', () => {
+	const pictures = [...spanish.matchAll(/<img[^>]*\bsrc="([^"]+)"/g)].map((m) => m[1]);
+	assert.equal(pictures.length, 3);
+	for (const src of pictures) assert.ok(existsSync(join(root, 'es', src)), src);
+});
+
+test('both pages carry the same launch switch, so one can never be flipped without the other', () => {
+	assert.ok(launchSwitch(html));
+	assert.equal(launchSwitch(spanish), launchSwitch(html));
+});
+
+test('before launch the Spanish Play buttons point to X too, and say so in Spanish', () => {
+	const play = playButtons(spanish);
+	for (const a of play) assert.equal(a.href, X);
+	assert.deepEqual(play.map((a) => a.text), ['PRONTO', 'ABRE EN EL LANZAMIENTO', 'ABRE EN EL LANZAMIENTO', 'Abre en el lanzamiento']);
+	assert.deepEqual(anchors(spanish).filter((a) => a.href?.startsWith(PLAY)), []);
+});
+
+test('flipping the switch on the Spanish page turns its Play buttons into real links, labelled in Spanish', { skip: !CHROME && 'no Chrome to load the page in' }, () => {
+	const page = rendered((h) => h.replace('live: false,', 'live: true,'), spanish);
+	const play = playButtons(page);
+	for (const a of play) assert.equal(a.href, PLAY);
+	assert.deepEqual(play.map((a) => a.text), ['▶ JUGAR', '▶ JUGAR YA', '▶ JUGAR YA', 'Jugar']);
+	assert.equal(isHidden(page, 'data-prelaunch'), true);
+	assert.equal(isHidden(page, 'data-live'), false);
+});
+
+test('accented capitals in the pixel face come from the patch font, on both pages', () => {
+	for (const [page, dir] of [[html, '.'], [spanish, 'es']]) {
+		const face = /@font-face\{font-family:'StonkStreet Pixel Caps';src:url\(([^)]+)\)[^}]*unicode-range:([^;]+);/.exec(page);
+		assert.ok(face, 'no patch font declared');
+		assert.ok(existsSync(join(root, dir, face[1])), face[1]);
+		// Only the accented capitals, so every other letter still comes from the pixel face itself.
+		assert.equal(face[2], 'U+C1,U+C9,U+CD,U+D1,U+D3,U+DA,U+DC');
+		assert.match(page, /\[style\*="Press Start 2P"\]\{font-family:'StonkStreet Pixel Caps','Press Start 2P',monospace !important\}/);
+	}
+});
+
+// How to Play lives on this site too (owner 2026-11-15), so a visitor can read the rules before connecting a wallet.
+const guide = readFileSync(join(root, 'how-to-play/index.html'), 'utf8');
+const guideSpanish = readFileSync(join(root, 'es/como-jugar/index.html'), 'utf8');
+const sections = (page) => [...page.matchAll(/<article[^>]*>\n<h2[^>]*>([^<]+)<\/h2>([\s\S]*?)<\/article>/g)].map(([, title, body]) => [title, body.match(/<p /g).length]);
+
+test('each home page links to the full rules in its own language', () => {
+	assert.deepEqual(anchors(html).filter((a) => a.href === 'how-to-play/').map((a) => a.text), ['READ ALL THE RULES']);
+	assert.deepEqual(anchors(spanish).filter((a) => a.href === 'como-jugar/').map((a) => a.text), ['LEE TODAS LAS REGLAS']);
+});
+
+test('the rules page has the nine sections, in English and in Spanish, with the same number of lines in each', () => {
+	assert.deepEqual(sections(guide).map(([title]) => title), ['Cash and the paycheck', 'Trading moves prices', 'The economy', 'New listings', 'Taking control', 'The CEO desk', 'Dirty plays and getting caught', 'Seasons and prizes', 'GREED']);
+	assert.equal(sections(guideSpanish).length, 9);
+	assert.deepEqual(sections(guideSpanish).map(([, lines]) => lines), sections(guide).map(([, lines]) => lines));
+	assert.match(guide, /<html lang="en">/);
+	assert.match(guideSpanish, /<html lang="es">/);
+	assert.match(guideSpanish, /<h1[^>]*>CÓMO JUGAR<\/h1>/);
+});
+
+test('the Spanish rules leave nothing in English, and say the game itself is still in English', () => {
+	const kept = words(guide).filter((t) => words(guideSpanish).includes(t));
+	assert.deepEqual(kept.filter((t) => !['STONKSTREET', 'GREED'].includes(t)), []);
+	assert.match(guideSpanish, /data-note[^>]*>Por ahora el juego está en inglés/);
+	assert.equal(/data-note/.test(guide), false);
+});
+
+test('the rules name no tunable numbers, so they never go stale against the game', () => {
+	for (const page of [guide, guideSpanish]) assert.equal(/\d/.test(sections(page).length && page.slice(page.indexOf('<main'), page.indexOf('</main>')).replace(/<[^>]+>/g, '')), false);
+});
+
+test('the rules pages find their way: home, the other language, pictures and the accent font', () => {
+	for (const [page, dir, home, other] of [[guide, 'how-to-play', '../', '../es/como-jugar/'], [guideSpanish, 'es/como-jugar', '../', '../../how-to-play/']]) {
+		const links = anchors(page).map((a) => a.href);
+		assert.deepEqual([...new Set(links)].sort(), [home, other].sort());
+		for (const href of [home, other]) assert.ok(existsSync(join(root, dir, href, 'index.html')), href);
+		const picture = /<img src="([^"]+)"/.exec(page)[1];
+		assert.ok(existsSync(join(root, dir, picture)), picture);
+		const font = /src:url\(([^)]+)\)/.exec(page)[1];
+		assert.ok(existsSync(join(root, dir, font)), font);
+		assert.match(page, /<link rel="alternate" hreflang="en" href="https:\/\/stonkstreet\.exchange\/how-to-play\/">/);
+		assert.match(page, /<link rel="alternate" hreflang="es" href="https:\/\/stonkstreet\.exchange\/es\/como-jugar\/">/);
+	}
+	// No Play button here, so the launch switch stays in the two home pages only.
+	for (const page of [guide, guideSpanish]) assert.equal(/data-play|LAUNCH/.test(page), false);
 });

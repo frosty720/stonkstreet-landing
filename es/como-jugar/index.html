@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cómo jugar · StonkStreet</title>
+<meta name="description" content="Las reglas de StonkStreet en una página: efectivo, operar, tomar el control, jugadas sucias, temporadas, premios y GREED.">
+<meta name="theme-color" content="#0A1230">
+<link rel="alternate" hreflang="en" href="https://stonkstreet.exchange/how-to-play/">
+<link rel="alternate" hreflang="es" href="https://stonkstreet.exchange/es/como-jugar/">
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+<meta property="og:title" content="Cómo jugar · StonkStreet">
+<meta property="og:description" content="Las reglas de StonkStreet en una página: efectivo, operar, tomar el control, jugadas sucias, temporadas, premios y GREED.">
+<meta property="og:image" content="https://stonkstreet.exchange/assets/hero-exchange-floor.jpg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://stonkstreet.exchange/es/como-jugar/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@StonkStreetMeme">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+/* The pixel face squeezes accented capitals (Ó, Ñ) down to lowercase height. This patch draws them full height, and only them. */
+@font-face{font-family:'StonkStreet Pixel Caps';src:url(../../assets/fonts/stonkstreet-pixel-caps.woff2) format('woff2');unicode-range:U+C1,U+C9,U+CD,U+D1,U+D3,U+DA,U+DC;font-display:swap}
+[style*="Press Start 2P"]{font-family:'StonkStreet Pixel Caps','Press Start 2P',monospace !important}
+body{margin:0;background:#0A1230}
+a{color:#E8B53A}a:hover{color:#FFD36B}
+img{image-rendering:pixelated}
+.btn{transition:transform .08s steps(2),box-shadow .08s steps(2)}
+.btn:hover{transform:translate(3px,3px);box-shadow:2px 2px 0 #000 !important}
+.btn:focus-visible,.navlink:focus-visible,a:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.navlink:hover{color:#FFD36B !important;text-decoration:underline}
+.bubble{position:relative}
+.bubble::before{content:"";position:absolute;left:-14px;top:30px;width:20px;height:20px;background:#F4F4F4;border-left:3px solid #000;border-bottom:3px solid #000;transform:rotate(45deg)}
+@media (max-width:620px){.bubble::before{left:40px;top:-14px;border-bottom:0;border-top:3px solid #000}}
+</style>
+</head>
+<body>
+<div style="background: #0A1230; color: #F4F4F4; font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif; font-size: 18px; line-height: 1.5; min-height: 100vh">
+
+<header style="border-bottom: 3px solid #000; background: #08102A">
+<nav aria-label="Principal" style="max-width: 1200px; margin: 0 auto; padding: 16px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="../" style="font-family: 'Press Start 2P', monospace; font-size: 18px; color: #E8B53A; text-decoration: none; text-shadow: 3px 3px 0 #000">STONKSTREET</a>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px">
+<a class="navlink" href="../" style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #A9B4D6; text-decoration: none">VOLVER A LA CALLE</a>
+<a class="navlink" href="../../how-to-play/" lang="en" hreflang="en" style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #A9B4D6; text-decoration: none">ENGLISH</a>
+</div>
+</nav>
+</header>
+
+<main style="max-width: 860px; margin: 0 auto; padding: 56px 24px 80px; display: flex; flex-direction: column; gap: 28px">
+<h1 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: clamp(20px, 3vw, 30px); line-height: 1.5; color: #E8B53A; text-shadow: 4px 4px 0 #000">CÓMO JUGAR</h1>
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 28px">
+<img src="../../assets/mr-greed.png" alt="Mr. Greed" style="flex: none; width: 96px; height: 96px; border: 3px solid #000; box-shadow: 5px 5px 0 #000; background: #0A1230">
+<p class="bubble" style="flex: 1 1 320px; min-width: 0; margin: 0; background: #F4F4F4; color: #08102A; border: 3px solid #000; box-shadow: 6px 6px 0 #000; padding: 18px 22px; font-size: 22px; line-height: 1.3">Pilas, novato. Así funciona la Calle. Apréndetelo una vez y después ve a hacer plata.</p>
+</div>
+<p data-note style="margin: 0; color: #A9B4D6">Por ahora el juego está en inglés. Esta guía te lo explica en español.</p>
+<article style="background: #0E1A40; border: 3px solid #000; box-shadow: 6px 6px 0 #000; padding: 22px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 13px; line-height: 1.6; color: #E8B53A">Efectivo y el pago diario</h2>
+<p style="margin: 0">Todos empiezan con el mismo efectivo. Cobra tu pago una vez al día en la mesa de operaciones (Trade).</p>
+<p style="margin: 0">El efectivo solo sale de operar, de los dividendos, del sueldo que te pagas como CEO y de ese pago.</p>
+<p style="margin: 0">¿Casi en la quiebra? Declárate en bancarrota una vez por semana y arranca de nuevo, pero te quedas por fuera de la carrera de esa semana.</p>
+</article>
+<article style="background: #0E1A40; border: 3px solid #000; box-shadow: 6px 6px 0 #000; padding: 22px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 13px; line-height: 1.6; color: #E8B53A">Operar mueve los precios</h2>
+<p style="margin: 0">Cada empresa cotiza contra su propio pool, así que cada compra sube el precio y cada venta lo baja. Cuanto más grande la operación, más grande el movimiento, y la orden te lo muestra antes de que hagas clic.</p>
+<p style="margin: 0">Las noticias y los resultados cambian lo que una empresa vale de verdad, y el precio se va acercando a ese valor. Lee las noticias.</p>
+<p style="margin: 0">Pide prestado con margen contra tus acciones cotizadas para comprar más. Los intereses se acumulan todo el tiempo que debas, y si tus acciones caen demasiado el juego se queda con tu efectivo y luego vende tus acciones al fondo rival para cubrir el préstamo.</p>
+</article>
+<article style="background: #0E1A40; border: 3px solid #000; box-shadow: 6px 6px 0 #000; padding: 22px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 13px; line-height: 1.6; color: #E8B53A">La economía</h2>
+<p style="margin: 0">Tres números mueven toda la Calle: la tasa de la Fed, el PIB y el precio del petróleo. Van de primeros en el ticker.</p>
+<p style="margin: 0">Una subida de tasas golpea a la tecnología y ayuda a los bancos. El petróleo caro impulsa a la energía y aprieta a los consumidores. Un buen informe del PIB levanta a casi todos.</p>
+<p style="margin: 0">Cada informe y cada sacudida del petróleo sale primero en las noticias. Léelas y verás venir el movimiento.</p>
+</article>
+<article style="background: #0E1A40; border: 3px solid #000; box-shadow: 6px 6px 0 #000; padding: 22px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 13px; line-height: 1.6; color: #E8B53A">Nuevas empresas en bolsa</h2>
+<p style="margin: 0">Cada semana una empresa nueva sale a bolsa en la Calle. Las noticias y Mr. Greed te avisan primero.</p>
+<p style="margin: 0">Si tienes suficiente GREED puedes comprar antes de la campana con descuento. Esas acciones se desbloquean cuando termina la primera hora de cotización.</p>
+<p style="margin: 0">Cómo le va a un debut depende de su sector y de la economía de ese día. Mira el ticker antes de comprar.</p>
+<p style="margin: 0">También puedes sacar a bolsa tu propia empresa: escoge un nombre, un tamaño y un sector, compra tu participación de control y dirígela desde la campana.</p>
+</article>
+<article style="background: #0E1A40; border: 3px solid #000; box-shadow: 6px 6px 0 #000; padding: 22px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 13px; line-height: 1.6; color: #E8B53A">Tomar el control</h2>
+<p style="margin: 0">Si tienes una parte más grande de una empresa que cualquier otro, por encima de la línea de control de su medidor, la diriges. Si pierdes el primer puesto o caes por debajo de la línea, quedas por fuera.</p>
+<p style="margin: 0">Cuando dos jugadores están cerca, la Calle lo llama una pelea por el control. Muévete ya.</p>
+</article>
+<article style="background: #0E1A40; border: 3px solid #000; box-shadow: 6px 6px 0 #000; padding: 22px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 13px; line-height: 1.6; color: #E8B53A">El despacho del CEO</h2>
+<p style="margin: 0">Dirige una empresa y se abre su despacho: págate un sueldo, reparte dividendos, recompra acciones o emite nuevas.</p>
+<p style="margin: 0">Un sueldazo desocupa la caja de la empresa, y eso tumba las acciones que tienes. Tú decides.</p>
+</article>
+<article style="background: #0E1A40; border: 3px solid #000; box-shadow: 6px 6px 0 #000; padding: 22px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 13px; line-height: 1.6; color: #E8B53A">Jugadas sucias y que te pillen</h2>
+<p style="margin: 0">Riega un rumor, mete una demanda temeraria o infla tu propia acción. Primero consigue abogados: la cobertura baja la probabilidad de que te pillen, pero nunca a cero.</p>
+<p style="margin: 0">Cada jugada espera un rato antes de hacer efecto, y su objetivo puede poner una queja en ese tiempo.</p>
+<p style="margin: 0">Compra un put sobre la acción de un rival y te paga si el precio medio de esa acción durante la vida del put termina por debajo de tu precio de ejercicio. Riega un rumor sobre ella justo después y la caída te paga a ti. Los puts se pagan en efectivo del juego, y no puedes comprar uno sobre una empresa que diriges.</p>
+<p style="margin: 0">Si te pillan, te multan, te bloquean las jugadas por un tiempo y quedas bajo investigación: nada de tomar el control, ni salidas a bolsa, ni montar una empresa, ni acciones previas a la salida a bolsa hasta que se cierre. Puedes seguir comprando y vendiendo.</p>
+<p style="margin: 0">Cada tirada usa una semilla que el juego publica después, así que cualquiera puede verificarla.</p>
+</article>
+<article style="background: #0E1A40; border: 3px solid #000; box-shadow: 6px 6px 0 #000; padding: 22px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 13px; line-height: 1.6; color: #E8B53A">Temporadas y premios</h2>
+<p style="margin: 0">Cada semana ordena a los jugadores según cuánto creció su patrimonio neto, valorado al precio medio de un día, así que un empujón de última hora no la gana.</p>
+<p style="margin: 0">Los diez primeros de cada semana ganan una parte del pozo semanal. La tabla de imperios lleva la cuenta de todos los tiempos.</p>
+<p style="margin: 0">Esos puestos dan puntos, y quien suma más puntos gana una liga de cuatro semanas y una liga de doce semanas.</p>
+<p style="margin: 0">Monta más empresas que nadie en un bloque de cuatro semanas, con cada una cotizando todavía por encima de su precio de salida a bolsa cuando termina, y ganas el premio IPO.</p>
+<p style="margin: 0">Los premios se pagan en acciones, nunca en GREED, con lo que la tesorería ha ganado de verdad. Los reclamas en la página Prizes.</p>
+<p style="margin: 0">Una parte de todo va para el creador del juego, pagada en la cadena cada semana, para que cualquiera lo verifique.</p>
+</article>
+<article style="background: #0E1A40; border: 3px solid #000; box-shadow: 6px 6px 0 #000; padding: 22px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 13px; line-height: 1.6; color: #E8B53A">GREED</h2>
+<p style="margin: 0">GREED es la moneda de la Calle. Cualquiera puede jugar, pero solo cobran quienes la tienen: la mantienes para ganar premios, y con suficiente escuchas mi Inside Line.</p>
+<p style="margin: 0">Se queda en tu billetera todo el tiempo, y tenerla te da recompensas en acciones. Nunca se convierte en efectivo del juego.</p>
+<p style="margin: 0">Si caes por debajo del mínimo, por venderla o moverla, pierdes tus premios de la semana, de las cuatro semanas y de las doce semanas en las que estás. Vuelve a completar el mínimo y los siguientes quedan limpios.</p>
+<p style="margin: 0">Las jugadas, la cobertura, las quejas, el cumplimiento, montar una empresa, las rondas de financiación y los trámites de salida a bolsa cuestan dólares, que se pagan en ETH, USDC o GREED desde tu billetera. La mitad de cada pago en ETH o USDC va a los pozos de premios, la mayor parte del resto compra GREED para la tesorería y una pequeña parte paga los gastos de funcionamiento. El GREED va directo a la tesorería. Operar en el mercado sigue siendo gratis.</p>
+</article>
+<a class="btn" href="../" style="align-self: flex-start; font-family: 'Press Start 2P', monospace; font-size: 11px; color: #E8B53A; background: #08102A; text-decoration: none; padding: 18px 20px; border: 3px solid #E8B53A; box-shadow: 5px 5px 0 #000">VOLVER A LA CALLE</a>
+</main>
+
+<footer style="border-top: 3px solid #000; background: #0A1230">
+<div style="max-width: 1200px; margin: 0 auto; padding: 36px 24px 44px; display: flex; flex-direction: column; gap: 8px">
+<p style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 12px; color: #E8B53A">STONKSTREET</p>
+<p style="margin: 0; color: #A9B4D6">Un juego de trading en Base. Todas las empresas de la Calle son ficticias.</p>
+</div>
+</footer>
+
+</div>
+</body>
+</html>
