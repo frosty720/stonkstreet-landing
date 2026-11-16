@@ -1,374 +1,835 @@
 <!doctype html>
 <html lang="es">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>StonkStreet</title>
-<meta name="description" content="Un juego multijugador de trading en Base. Opera con empresas ficticias, toma el control de ellas, juega sucio y sube en la tabla semanal por premios pagados en acciones reales.">
-<meta name="theme-color" content="#0A1230">
-<link rel="alternate" hreflang="en" href="https://stonkstreet.exchange/">
-<link rel="alternate" hreflang="es" href="https://stonkstreet.exchange/es/">
-<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
-<meta property="og:title" content="StonkStreet">
-<meta property="og:description" content="Domina la acción. Domina la tabla. Domina la Calle.">
-<meta property="og:image" content="https://stonkstreet.exchange/assets/hero-exchange-floor.jpg">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://stonkstreet.exchange/es/">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@StonkStreetMeme">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&family=Press+Start+2P&display=swap" rel="stylesheet">
-<style>
-/* The pixel face squeezes accented capitals (Ó, Ñ) down to lowercase height. This patch draws them full height, and only them. */
-@font-face{font-family:'StonkStreet Pixel Caps';src:url(../assets/fonts/stonkstreet-pixel-caps.woff2) format('woff2');unicode-range:U+C1,U+C9,U+CD,U+D1,U+D3,U+DA,U+DC;font-display:swap}
-[style*="Press Start 2P"]{font-family:'StonkStreet Pixel Caps','Press Start 2P',monospace !important}
-body{margin:0;background:#0A1230}
-[hidden]{display:none !important}
-a{color:#E8B53A}a:hover{color:#FFD36B}
-img{image-rendering:pixelated}
-.btn{transition:transform .08s steps(2),box-shadow .08s steps(2)}
-.btn:hover{transform:translate(3px,3px);box-shadow:2px 2px 0 #000 !important}
-.btn:active{transform:translate(5px,5px);box-shadow:0 0 0 #000 !important}
-.btn:focus-visible,.navlink:focus-visible,a:focus-visible{outline:3px solid #fff;outline-offset:3px}
-.navlink:hover{color:#FFD36B !important;text-decoration:underline}
-.ticker-track{display:flex;width:max-content;animation:tick 48s linear infinite}
-@keyframes tick{to{transform:translateX(-50%)}}
-@media (prefers-reduced-motion:reduce){.ticker-track{animation:none}}
-.bubble{position:relative}
-.bubble::before{content:"";position:absolute;left:-14px;top:30px;width:20px;height:20px;background:#F4F4F4;border-left:3px solid #000;border-bottom:3px solid #000;transform:rotate(45deg)}
-@media (max-width:620px){.bubble::before{left:40px;top:-14px;border-bottom:0;border-top:3px solid #000}}
-.num{font-family:'IBM Plex Mono',ui-monospace,monospace}
-.shot{image-rendering:auto}
-details>summary{cursor:pointer;list-style:none}
-details>summary::-webkit-details-marker{display:none}
-details[open]>summary .more{display:none}
-details:not([open])>summary .less{display:none}
-html{scroll-behavior:smooth}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-</style>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>StonkStreet</title>
+	<meta name="description"
+		content="Un juego multijugador de trading en Base. Opera con empresas ficticias, toma el control de ellas, juega sucio y sube en la tabla semanal por premios pagados en acciones reales.">
+	<meta name="theme-color" content="#0A1230">
+	<link rel="alternate" hreflang="en" href="https://stonkstreet.exchange/">
+	<link rel="alternate" hreflang="es" href="https://stonkstreet.exchange/es/">
+	<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+	<meta property="og:title" content="StonkStreet">
+	<meta property="og:description" content="Domina la acción. Domina la tabla. Domina la Calle.">
+	<meta property="og:image" content="https://stonkstreet.exchange/assets/hero-exchange-floor.jpg">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://stonkstreet.exchange/es/">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="@StonkStreetMeme">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&family=Press+Start+2P&display=swap"
+		rel="stylesheet">
+	<style>
+		/* The pixel face squeezes accented capitals (Ó, Ñ) down to lowercase height. This patch draws them full height, and only them. */
+		@font-face {
+			font-family: 'StonkStreet Pixel Caps';
+			src: url(../assets/fonts/stonkstreet-pixel-caps.woff2) format('woff2');
+			unicode-range: U+C1, U+C9, U+CD, U+D1, U+D3, U+DA, U+DC;
+			font-display: swap
+		}
+
+		[style*="Press Start 2P"] {
+			font-family: 'StonkStreet Pixel Caps', 'Press Start 2P', monospace !important
+		}
+
+		body {
+			margin: 0;
+			background: #0A1230
+		}
+
+		[hidden] {
+			display: none !important
+		}
+
+		a {
+			color: #E8B53A
+		}
+
+		a:hover {
+			color: #FFD36B
+		}
+
+		img {
+			image-rendering: pixelated
+		}
+
+		.btn {
+			transition: transform .08s steps(2), box-shadow .08s steps(2)
+		}
+
+		.btn:hover {
+			transform: translate(3px, 3px);
+			box-shadow: 2px 2px 0 #000 !important
+		}
+
+		.btn:active {
+			transform: translate(5px, 5px);
+			box-shadow: 0 0 0 #000 !important
+		}
+
+		.btn:focus-visible,
+		.navlink:focus-visible,
+		a:focus-visible {
+			outline: 3px solid #fff;
+			outline-offset: 3px
+		}
+
+		.navlink:hover {
+			color: #FFD36B !important;
+			text-decoration: underline
+		}
+
+		.ticker-track {
+			display: flex;
+			width: max-content;
+			animation: tick 48s linear infinite
+		}
+
+		@keyframes tick {
+			to {
+				transform: translateX(-50%)
+			}
+		}
+
+		@media (prefers-reduced-motion:reduce) {
+			.ticker-track {
+				animation: none
+			}
+		}
+
+		.bubble {
+			position: relative
+		}
+
+		.bubble::before {
+			content: "";
+			position: absolute;
+			left: -14px;
+			top: 30px;
+			width: 20px;
+			height: 20px;
+			background: #F4F4F4;
+			border-left: 3px solid #000;
+			border-bottom: 3px solid #000;
+			transform: rotate(45deg)
+		}
+
+		@media (max-width:620px) {
+			.bubble::before {
+				left: 40px;
+				top: -14px;
+				border-bottom: 0;
+				border-top: 3px solid #000
+			}
+		}
+
+		.num {
+			font-family: 'IBM Plex Mono', ui-monospace, monospace
+		}
+
+		.shot {
+			image-rendering: auto
+		}
+
+		details>summary {
+			cursor: pointer;
+			list-style: none
+		}
+
+		details>summary::-webkit-details-marker {
+			display: none
+		}
+
+		details[open]>summary .more {
+			display: none
+		}
+
+		details:not([open])>summary .less {
+			display: none
+		}
+
+		html {
+			scroll-behavior: smooth
+		}
+
+		@media (prefers-reduced-motion:reduce) {
+			html {
+				scroll-behavior: auto
+			}
+		}
+	</style>
 </head>
+
 <body>
-<div style="background: #0A1230; color: #F4F4F4; font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif; font-size: 18px; line-height: 1.5; font-variant-numeric: tabular-nums; min-height: 100vh">
+	<div
+		style="background: #0A1230; color: #F4F4F4; font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif; font-size: 18px; line-height: 1.5; font-variant-numeric: tabular-nums; min-height: 100vh">
 
-<header style="border-bottom: 3px solid #000; background: #08102A">
-<nav aria-label="Principal" style="max-width: 1200px; margin: 0 auto; padding: 16px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
-<a href="#top" style="font-family: 'Press Start 2P', monospace; font-size: 18px; color: #E8B53A; text-decoration: none; text-shadow: 3px 3px 0 #000">STONKSTREET</a>
-<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px">
-<a class="navlink" href="#how" style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #A9B4D6; text-decoration: none">CÓMO JUGAR</a>
-<a class="navlink" href="#greed" style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #A9B4D6; text-decoration: none">GREED</a>
-<a class="navlink" href="#prizes" style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #A9B4D6; text-decoration: none">PREMIOS</a>
-<a class="navlink" href="#roadmap" style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #A9B4D6; text-decoration: none">HOJA DE RUTA</a>
-<a class="navlink" href="https://x.com/StonkStreetMeme" target="_blank" rel="noopener" style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #A9B4D6; text-decoration: none">EN X</a>
-<a class="navlink" href="../" lang="en" hreflang="en" style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #A9B4D6; text-decoration: none">ENGLISH</a>
-<a class="btn" data-play data-live-label="▶ JUGAR" href="https://x.com/StonkStreetMeme" target="_blank" rel="noopener" style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #04210A; background: #5BE36B; text-decoration: none; padding: 14px 18px; border: 3px solid #000; box-shadow: 4px 4px 0 #000">PRONTO</a>
-</div>
-</nav>
-</header>
+		<header style="border-bottom: 3px solid #000; background: #08102A">
+			<nav aria-label="Principal"
+				style="max-width: 1200px; margin: 0 auto; padding: 16px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+				<a href="#top"
+					style="font-family: 'Press Start 2P', monospace; font-size: 18px; color: #E8B53A; text-decoration: none; text-shadow: 3px 3px 0 #000">STONKSTREET</a>
+				<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px">
+					<a class="navlink" href="#how"
+						style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #A9B4D6; text-decoration: none">CÓMO
+						JUGAR</a>
+					<a class="navlink" href="#greed"
+						style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #A9B4D6; text-decoration: none">GREED</a>
+					<a class="navlink" href="#prizes"
+						style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #A9B4D6; text-decoration: none">PREMIOS</a>
+					<a class="navlink" href="#roadmap"
+						style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #A9B4D6; text-decoration: none">HOJA
+						DE RUTA</a>
+					<a class="navlink" href="https://x.com/StonkStreetMeme" target="_blank" rel="noopener"
+						style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #A9B4D6; text-decoration: none">EN
+						X</a>
+					<a class="navlink" href="../" lang="en" hreflang="en"
+						style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #A9B4D6; text-decoration: none">ENGLISH</a>
+					<a class="btn" data-play data-live-label="▶ JUGAR" href="https://x.com/StonkStreetMeme"
+						target="_blank" rel="noopener"
+						style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #04210A; background: #5BE36B; text-decoration: none; padding: 14px 18px; border: 3px solid #000; box-shadow: 4px 4px 0 #000">PRONTO</a>
+				</div>
+			</nav>
+		</header>
 
-<div id="top" style="background-color: #0A1230; background-image: linear-gradient(rgba(169,180,214,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(169,180,214,0.07) 1px, transparent 1px); background-size: 32px 32px">
-<section style="max-width: 1200px; margin: 0 auto; padding: 64px 24px 72px; display: flex; flex-wrap: wrap; align-items: center; gap: 48px">
-<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 26px">
-<p style="margin: 0; align-self: flex-start; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #04210A; background: #5BE36B; padding: 8px 10px; border: 3px solid #000; box-shadow: 3px 3px 0 #000">UN JUEGO MULTIJUGADOR DE TRADING EN BASE</p>
-<h1 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: clamp(22px, 3.2vw, 36px); line-height: 1.5; color: #E8B53A; text-shadow: 4px 4px 0 #000">DOMINA LA ACCIÓN.<br>DOMINA LA TABLA.<br>DOMINA LA CALLE.</h1>
-<p style="margin: 0; font-size: 21px; color: #F4F4F4; max-width: 34ch">Opera con empresas ficticias, toma el control de ellas, juega sucio y sube en la tabla semanal por premios pagados en acciones reales.</p>
-<div style="display: flex; flex-wrap: wrap; gap: 18px; align-items: center">
-<a class="btn" data-play data-live-label="▶ JUGAR YA" href="https://x.com/StonkStreetMeme" target="_blank" rel="noopener" style="font-family: 'Press Start 2P', monospace; font-size: 14px; color: #04210A; background: #5BE36B; text-decoration: none; padding: 20px 26px; border: 3px solid #000; box-shadow: 6px 6px 0 #000">ABRE EN EL LANZAMIENTO</a>
-<a class="btn" href="#how" style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #E8B53A; background: #08102A; text-decoration: none; padding: 18px 20px; border: 3px solid #E8B53A; box-shadow: 5px 5px 0 #000">CÓMO JUGAR</a>
-</div>
-<p data-prelaunch style="margin: 0; color: #A9B4D6; max-width: 40ch">La Calle todavía no abre. Sigue a <a href="https://x.com/StonkStreetMeme" target="_blank" rel="noopener">@StonkStreetMeme</a> en X o <a href="https://t.me/stonkstreetmeme" target="_blank" rel="noopener">Telegram</a> para la campana de apertura.</p>
-<p data-live hidden style="margin: 0; color: #A9B4D6; max-width: 40ch">Entra gratis con tu billetera, sin transacción. Mantén 100.000 GREED para jugar.</p>
-</div>
+		<div id="top"
+			style="background-color: #0A1230; background-image: linear-gradient(rgba(169,180,214,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(169,180,214,0.07) 1px, transparent 1px); background-size: 32px 32px">
+			<section
+				style="max-width: 1200px; margin: 0 auto; padding: 64px 24px 72px; display: flex; flex-wrap: wrap; align-items: center; gap: 48px">
+				<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 26px">
+					<p
+						style="margin: 0; align-self: flex-start; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #04210A; background: #5BE36B; padding: 8px 10px; border: 3px solid #000; box-shadow: 3px 3px 0 #000">
+						UN JUEGO MULTIJUGADOR DE TRADING EN BASE</p>
+					<h1
+						style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: clamp(22px, 3.2vw, 36px); line-height: 1.5; color: #E8B53A; text-shadow: 4px 4px 0 #000">
+						DOMINA LA ACCIÓN.<br>DOMINA LA TABLA.<br>DOMINA LA CALLE.</h1>
+					<p style="margin: 0; font-size: 21px; color: #F4F4F4; max-width: 34ch">Opera con empresas ficticias,
+						toma el control de ellas, juega sucio y sube en la tabla semanal por premios pagados en acciones
+						reales.</p>
+					<div style="display: flex; flex-wrap: wrap; gap: 18px; align-items: center">
+						<a class="btn" data-play data-live-label="▶ JUGAR YA" href="https://x.com/StonkStreetMeme"
+							target="_blank" rel="noopener"
+							style="font-family: 'Press Start 2P', monospace; font-size: 14px; color: #04210A; background: #5BE36B; text-decoration: none; padding: 20px 26px; border: 3px solid #000; box-shadow: 6px 6px 0 #000">ABRE
+							EN EL LANZAMIENTO</a>
+						<a class="btn" href="#how"
+							style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #E8B53A; background: #08102A; text-decoration: none; padding: 18px 20px; border: 3px solid #E8B53A; box-shadow: 5px 5px 0 #000">CÓMO
+							JUGAR</a>
+					</div>
+					<p data-prelaunch style="margin: 0; color: #A9B4D6; max-width: 40ch">La Calle todavía no abre. Sigue
+						a <a href="https://x.com/StonkStreetMeme" target="_blank" rel="noopener">@StonkStreetMeme</a> en
+						X o <a href="https://t.me/stonkstreetmeme" target="_blank" rel="noopener">Telegram</a> para la
+						campana de apertura.</p>
+					<p data-live hidden style="margin: 0; color: #A9B4D6; max-width: 40ch">Entra gratis con tu
+						billetera, sin transacción. Mantén 100.000 GREED para jugar.</p>
+				</div>
 
-<figure style="flex: 1 1 480px; min-width: 0; margin: 0; border: 3px solid #000; box-shadow: 10px 10px 0 #000; background: #08102A">
-<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; background: #E8B53A; border-bottom: 3px solid #000">
-<span style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00">STONKSTREET EXCHANGE</span>
-<span aria-hidden="true" style="display: flex; gap: 6px"><span style="width: 12px; height: 12px; background: #2A1A00"></span><span style="width: 12px; height: 12px; background: #2A1A00"></span><span style="width: 12px; height: 12px; background: #2A1A00"></span></span>
-</div>
-<img src="../assets/hero-exchange-floor.jpg" alt="Mr. Greed en el piso de la bolsa de StonkStreet Exchange al sonar la campana de apertura" style="display: block; width: 100%; height: auto">
-<figcaption style="padding: 10px 14px; border-top: 3px solid #000; background: #0E1A40; color: #A9B4D6">Mr. Greed en el piso de la bolsa, con la campana de apertura</figcaption>
-</figure>
+				<figure
+					style="flex: 1 1 480px; min-width: 0; margin: 0; border: 3px solid #000; box-shadow: 10px 10px 0 #000; background: #08102A">
+					<div
+						style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; background: #E8B53A; border-bottom: 3px solid #000">
+						<span
+							style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00">STONKSTREET
+							EXCHANGE</span>
+						<span aria-hidden="true" style="display: flex; gap: 6px"><span
+								style="width: 12px; height: 12px; background: #2A1A00"></span><span
+								style="width: 12px; height: 12px; background: #2A1A00"></span><span
+								style="width: 12px; height: 12px; background: #2A1A00"></span></span>
+					</div>
+					<img src="../assets/hero-exchange-floor.jpg"
+						alt="Mr. Greed en el piso de la bolsa de StonkStreet Exchange al sonar la campana de apertura"
+						style="display: block; width: 100%; height: auto">
+					<figcaption
+						style="padding: 10px 14px; border-top: 3px solid #000; background: #0E1A40; color: #A9B4D6">Mr.
+						Greed en el piso de la bolsa, con la campana de apertura</figcaption>
+				</figure>
 
-<figure style="flex: 1 1 100%; min-width: 0; margin: 0; border: 3px solid #E8B53A; box-shadow: 10px 10px 0 #000; background: #08102A">
-<div style="padding: 10px 14px; background: #E8B53A; border-bottom: 3px solid #000; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #2A1A00">LA MESA DE OPERACIONES</div>
-<img class="shot" src="../assets/game-trade-desk.jpg" width="1600" height="555" alt="La mesa de operaciones de StonkStreet: la lista de empresas a la izquierda, el gráfico de precio, los dueños y las noticias de una empresa en el centro, y la orden de compra y venta a la derecha" style="display: block; width: 100%; height: auto">
-<figcaption style="padding: 10px 14px; border-top: 3px solid #000; background: #0E1A40; color: #A9B4D6">El juego en sí, por ahora en inglés: elige una empresa, estúdiala y haz tu jugada</figcaption>
-</figure>
-</section>
-</div>
+				<figure
+					style="flex: 1 1 100%; min-width: 0; margin: 0; border: 3px solid #E8B53A; box-shadow: 10px 10px 0 #000; background: #08102A">
+					<div
+						style="padding: 10px 14px; background: #E8B53A; border-bottom: 3px solid #000; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #2A1A00">
+						LA MESA DE OPERACIONES</div>
+					<img class="shot" src="../assets/game-trade-desk.jpg" width="1600" height="555"
+						alt="La mesa de operaciones de StonkStreet: la lista de empresas a la izquierda, el gráfico de precio, los dueños y las noticias de una empresa en el centro, y la orden de compra y venta a la derecha"
+						style="display: block; width: 100%; height: auto">
+					<figcaption
+						style="padding: 10px 14px; border-top: 3px solid #000; background: #0E1A40; color: #A9B4D6">El
+						juego en sí, por ahora en inglés: elige una empresa, estúdiala y haz tu jugada</figcaption>
+				</figure>
+			</section>
+		</div>
 
-<div aria-hidden="true" style="overflow: hidden; border-top: 3px solid #000; border-bottom: 3px solid #000; background: #E8B53A; color: #2A1A00; font-family: 'Press Start 2P', monospace; font-size: 13px">
-<div class="ticker-track">
-<div style="display: flex; flex: none; gap: 28px; padding: 14px 14px 14px 0; white-space: nowrap"><span>OPERA</span><span>■</span><span>TOMA EL CONTROL</span><span>■</span><span>JUEGA SUCIO</span><span>■</span><span>GANA LA SEMANA</span><span>■</span><span>OPERA</span><span>■</span><span>TOMA EL CONTROL</span><span>■</span><span>JUEGA SUCIO</span><span>■</span><span>GANA LA SEMANA</span><span>■</span><span>OPERA</span><span>■</span><span>TOMA EL CONTROL</span><span>■</span><span>JUEGA SUCIO</span><span>■</span><span>GANA LA SEMANA</span><span>■</span></div>
-<div style="display: flex; flex: none; gap: 28px; padding: 14px 14px 14px 0; white-space: nowrap"><span>OPERA</span><span>■</span><span>TOMA EL CONTROL</span><span>■</span><span>JUEGA SUCIO</span><span>■</span><span>GANA LA SEMANA</span><span>■</span><span>OPERA</span><span>■</span><span>TOMA EL CONTROL</span><span>■</span><span>JUEGA SUCIO</span><span>■</span><span>GANA LA SEMANA</span><span>■</span><span>OPERA</span><span>■</span><span>TOMA EL CONTROL</span><span>■</span><span>JUEGA SUCIO</span><span>■</span><span>GANA LA SEMANA</span><span>■</span></div>
-</div>
-</div>
+		<div aria-hidden="true"
+			style="overflow: hidden; border-top: 3px solid #000; border-bottom: 3px solid #000; background: #E8B53A; color: #2A1A00; font-family: 'Press Start 2P', monospace; font-size: 13px">
+			<div class="ticker-track">
+				<div style="display: flex; flex: none; gap: 28px; padding: 14px 14px 14px 0; white-space: nowrap">
+					<span>OPERA</span><span>■</span><span>TOMA EL CONTROL</span><span>■</span><span>JUEGA
+						SUCIO</span><span>■</span><span>GANA LA
+						SEMANA</span><span>■</span><span>OPERA</span><span>■</span><span>TOMA EL
+						CONTROL</span><span>■</span><span>JUEGA SUCIO</span><span>■</span><span>GANA LA
+						SEMANA</span><span>■</span><span>OPERA</span><span>■</span><span>TOMA EL
+						CONTROL</span><span>■</span><span>JUEGA SUCIO</span><span>■</span><span>GANA LA
+						SEMANA</span><span>■</span></div>
+				<div style="display: flex; flex: none; gap: 28px; padding: 14px 14px 14px 0; white-space: nowrap">
+					<span>OPERA</span><span>■</span><span>TOMA EL CONTROL</span><span>■</span><span>JUEGA
+						SUCIO</span><span>■</span><span>GANA LA
+						SEMANA</span><span>■</span><span>OPERA</span><span>■</span><span>TOMA EL
+						CONTROL</span><span>■</span><span>JUEGA SUCIO</span><span>■</span><span>GANA LA
+						SEMANA</span><span>■</span><span>OPERA</span><span>■</span><span>TOMA EL
+						CONTROL</span><span>■</span><span>JUEGA SUCIO</span><span>■</span><span>GANA LA
+						SEMANA</span><span>■</span></div>
+			</div>
+		</div>
 
-<section id="how" style="max-width: 1200px; margin: 0 auto; padding: 80px 24px; display: flex; flex-direction: column; gap: 36px">
-<h2 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 20px; line-height: 1.5; color: #E8B53A; text-shadow: 3px 3px 0 #000; text-wrap: balance">ASÍ SE JUEGA</h2>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); gap: 24px">
+		<section id="how"
+			style="max-width: 1200px; margin: 0 auto; padding: 80px 24px; display: flex; flex-direction: column; gap: 36px">
+			<h2
+				style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 20px; line-height: 1.5; color: #E8B53A; text-shadow: 3px 3px 0 #000; text-wrap: balance">
+				ASÍ SE JUEGA</h2>
+			<div
+				style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); gap: 24px">
 
-<article style="background: #0E1A40; border: 3px solid #000; box-shadow: 6px 6px 0 #000; padding: 22px; display: flex; flex-direction: column; gap: 16px">
-<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px">
-<p style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #04210A; background: #5BE36B; padding: 6px 8px; border: 2px solid #000">1 · OPERA</p>
-<svg viewBox="0 0 8 8" width="48" height="48" shape-rendering="crispEdges" aria-hidden="true" style="flex: none"><path d="M0 5h2v3h-2zM3 3h2v5h-2zM6 0h2v8h-2z" fill="#5BE36B"/></svg>
-</div>
-<p style="margin: 0">Cada empresa cotiza contra su propio pool, así que cada compra sube el precio y cada venta lo baja. Las noticias, los resultados y la economía mueven lo que vale de verdad.</p>
-</article>
+				<article
+					style="background: #0E1A40; border: 3px solid #000; box-shadow: 6px 6px 0 #000; padding: 22px; display: flex; flex-direction: column; gap: 16px">
+					<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px">
+						<p
+							style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #04210A; background: #5BE36B; padding: 6px 8px; border: 2px solid #000">
+							1 · OPERA</p>
+						<svg viewBox="0 0 8 8" width="48" height="48" shape-rendering="crispEdges" aria-hidden="true"
+							style="flex: none">
+							<path d="M0 5h2v3h-2zM3 3h2v5h-2zM6 0h2v8h-2z" fill="#5BE36B" />
+						</svg>
+					</div>
+					<p style="margin: 0">Cada empresa cotiza contra su propio pool, así que cada compra sube el precio y
+						cada venta lo baja. Las noticias, los resultados y la economía mueven lo que vale de verdad.</p>
+				</article>
 
-<article style="background: #0E1A40; border: 3px solid #000; box-shadow: 6px 6px 0 #000; padding: 22px; display: flex; flex-direction: column; gap: 16px">
-<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px">
-<p style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #2A1A00; background: #E8B53A; padding: 6px 8px; border: 2px solid #000">2 · TOMA EL CONTROL</p>
-<svg viewBox="0 0 8 7" width="48" height="42" shape-rendering="crispEdges" aria-hidden="true" style="flex: none"><path d="M0 0h1v1h-1zM3 0h2v1h-2zM7 0h1v1h-1zM0 1h2v1h-2zM3 1h2v1h-2zM6 1h2v1h-2zM0 2h8v2h-8zM1 4h6v1h-6zM0 6h8v1h-8z" fill="#E8B53A"/></svg>
-</div>
-<p style="margin: 0">Ten una parte más grande de una empresa que cualquier otro y la diriges. Págate un sueldo, reparte dividendos, recompra acciones. O monta tu propia empresa y sácala a bolsa.</p>
-</article>
+				<article
+					style="background: #0E1A40; border: 3px solid #000; box-shadow: 6px 6px 0 #000; padding: 22px; display: flex; flex-direction: column; gap: 16px">
+					<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px">
+						<p
+							style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #2A1A00; background: #E8B53A; padding: 6px 8px; border: 2px solid #000">
+							2 · TOMA EL CONTROL</p>
+						<svg viewBox="0 0 8 7" width="48" height="42" shape-rendering="crispEdges" aria-hidden="true"
+							style="flex: none">
+							<path
+								d="M0 0h1v1h-1zM3 0h2v1h-2zM7 0h1v1h-1zM0 1h2v1h-2zM3 1h2v1h-2zM6 1h2v1h-2zM0 2h8v2h-8zM1 4h6v1h-6zM0 6h8v1h-8z"
+								fill="#E8B53A" />
+						</svg>
+					</div>
+					<p style="margin: 0">Ten una parte más grande de una empresa que cualquier otro y la diriges. Págate
+						un sueldo, reparte dividendos, recompra acciones. O monta tu propia empresa y sácala a bolsa.
+					</p>
+				</article>
 
-<article style="background: #0E1A40; border: 3px solid #000; box-shadow: 6px 6px 0 #000; padding: 22px; display: flex; flex-direction: column; gap: 16px">
-<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px">
-<p style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #2A0000; background: #FF7A7A; padding: 6px 8px; border: 2px solid #000">3 · JUEGA SUCIO</p>
-<svg viewBox="0 0 8 8" width="48" height="48" shape-rendering="crispEdges" aria-hidden="true" style="flex: none"><path d="M1 0h6v1h-6zM0 1h8v1h-8zM0 2h1v2h-1zM3 2h2v2h-2zM7 2h1v2h-1zM0 4h8v1h-8zM1 5h2v1h-2zM5 5h2v1h-2zM1 6h1v1h-1zM3 6h2v1h-2zM6 6h1v1h-1zM1 7h6v1h-6z" fill="#FF7A7A"/></svg>
-</div>
-<p style="margin: 0">Riega un rumor, mete una demanda temeraria, infla tu propia acción. Primero consigue abogados. Si te pillan, te multan, te bloquean y quedas bajo investigación.</p>
-</article>
+				<article
+					style="background: #0E1A40; border: 3px solid #000; box-shadow: 6px 6px 0 #000; padding: 22px; display: flex; flex-direction: column; gap: 16px">
+					<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px">
+						<p
+							style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #2A0000; background: #FF7A7A; padding: 6px 8px; border: 2px solid #000">
+							3 · JUEGA SUCIO</p>
+						<svg viewBox="0 0 8 8" width="48" height="48" shape-rendering="crispEdges" aria-hidden="true"
+							style="flex: none">
+							<path
+								d="M1 0h6v1h-6zM0 1h8v1h-8zM0 2h1v2h-1zM3 2h2v2h-2zM7 2h1v2h-1zM0 4h8v1h-8zM1 5h2v1h-2zM5 5h2v1h-2zM1 6h1v1h-1zM3 6h2v1h-2zM6 6h1v1h-1zM1 7h6v1h-6z"
+								fill="#FF7A7A" />
+						</svg>
+					</div>
+					<p style="margin: 0">Riega un rumor, mete una demanda temeraria, infla tu propia acción. Primero
+						consigue abogados. Si te pillan, te multan, te bloquean y quedas bajo investigación.</p>
+				</article>
 
-<article style="background: #0E1A40; border: 3px solid #000; box-shadow: 6px 6px 0 #000; padding: 22px; display: flex; flex-direction: column; gap: 16px">
-<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px">
-<p style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #08102A; background: #C9A6FF; padding: 6px 8px; border: 2px solid #000">4 · GANA LA SEMANA</p>
-<svg viewBox="0 0 8 8" width="48" height="48" shape-rendering="crispEdges" aria-hidden="true" style="flex: none"><path d="M0 0h8v2h-8zM0 2h1v1h-1zM2 2h4v1h-4zM7 2h1v1h-1zM1 3h6v1h-6zM2 4h4v1h-4zM3 5h2v2h-2zM2 7h4v1h-4z" fill="#C9A6FF"/></svg>
-</div>
-<p style="margin: 0">La tabla ordena según cuánto creció tu patrimonio neto esta semana. Los diez primeros se reparten el pozo semanal.</p>
-</article>
+				<article
+					style="background: #0E1A40; border: 3px solid #000; box-shadow: 6px 6px 0 #000; padding: 22px; display: flex; flex-direction: column; gap: 16px">
+					<div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px">
+						<p
+							style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #08102A; background: #C9A6FF; padding: 6px 8px; border: 2px solid #000">
+							4 · GANA LA SEMANA</p>
+						<svg viewBox="0 0 8 8" width="48" height="48" shape-rendering="crispEdges" aria-hidden="true"
+							style="flex: none">
+							<path
+								d="M0 0h8v2h-8zM0 2h1v1h-1zM2 2h4v1h-4zM7 2h1v1h-1zM1 3h6v1h-6zM2 4h4v1h-4zM3 5h2v2h-2zM2 7h4v1h-4z"
+								fill="#C9A6FF" />
+						</svg>
+					</div>
+					<p style="margin: 0">La tabla ordena según cuánto creció tu patrimonio neto esta semana. Los diez
+						primeros se reparten el pozo semanal.</p>
+				</article>
 
-</div>
-<a class="btn" href="como-jugar/" style="align-self: flex-start; font-family: 'Press Start 2P', monospace; font-size: 11px; color: #E8B53A; background: #08102A; text-decoration: none; padding: 18px 20px; border: 3px solid #E8B53A; box-shadow: 5px 5px 0 #000">LEE TODAS LAS REGLAS</a>
-</section>
+			</div>
+			<a class="btn" href="como-jugar/"
+				style="align-self: flex-start; font-family: 'Press Start 2P', monospace; font-size: 11px; color: #E8B53A; background: #08102A; text-decoration: none; padding: 18px 20px; border: 3px solid #E8B53A; box-shadow: 5px 5px 0 #000">LEE
+				TODAS LAS REGLAS</a>
+		</section>
 
-<section aria-label="Mr. Greed" style="border-top: 3px solid #000; border-bottom: 3px solid #000; background: #0E1A40">
-<div style="max-width: 1200px; margin: 0 auto; padding: 48px 24px; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 36px">
-<img src="../assets/mr-greed.png" alt="Mr. Greed" style="flex: none; width: 128px; height: 128px; border: 3px solid #000; box-shadow: 5px 5px 0 #000; background: #0A1230">
-<div class="bubble" style="flex: 1 1 360px; min-width: 0; background: #F4F4F4; color: #08102A; border: 3px solid #000; box-shadow: 6px 6px 0 #000; padding: 24px 28px; display: flex; flex-direction: column; gap: 14px">
-<p style="margin: 0; font-size: 27px; line-height: 1.3; max-width: 30ch; text-wrap: balance">“En esta Calle hay dos tipos de gente: tiburones y presas.”</p>
-<p style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 11px; color: #6B4A00">MR. GREED</p>
-</div>
-</div>
-</section>
+		<section aria-label="Mr. Greed"
+			style="border-top: 3px solid #000; border-bottom: 3px solid #000; background: #0E1A40">
+			<div
+				style="max-width: 1200px; margin: 0 auto; padding: 48px 24px; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 36px">
+				<img src="../assets/mr-greed.png" alt="Mr. Greed"
+					style="flex: none; width: 128px; height: 128px; border: 3px solid #000; box-shadow: 5px 5px 0 #000; background: #0A1230">
+				<div class="bubble"
+					style="flex: 1 1 360px; min-width: 0; background: #F4F4F4; color: #08102A; border: 3px solid #000; box-shadow: 6px 6px 0 #000; padding: 24px 28px; display: flex; flex-direction: column; gap: 14px">
+					<p style="margin: 0; font-size: 27px; line-height: 1.3; max-width: 30ch; text-wrap: balance">“En
+						esta Calle hay dos tipos de gente: tiburones y presas.”</p>
+					<p style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 11px; color: #6B4A00">MR.
+						GREED</p>
+				</div>
+			</div>
+		</section>
 
-<section id="greed" style="background: #08102A; border-bottom: 3px solid #000">
-<div style="max-width: 1200px; margin: 0 auto; padding: 80px 24px; display: flex; flex-direction: column; gap: 36px">
-<h2 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 20px; line-height: 1.5; color: #E8B53A; text-shadow: 3px 3px 0 #000; text-wrap: balance">GREED, LA MONEDA</h2>
-<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 32px">
+		<section id="greed" style="background: #08102A; border-bottom: 3px solid #000">
+			<div
+				style="max-width: 1200px; margin: 0 auto; padding: 80px 24px; display: flex; flex-direction: column; gap: 36px">
+				<h2
+					style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 20px; line-height: 1.5; color: #E8B53A; text-shadow: 3px 3px 0 #000; text-wrap: balance">
+					GREED, LA MONEDA</h2>
+				<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 32px">
 
-<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
-<p style="margin: 0; max-width: 46ch">GREED es tu entrada a la Calle. Operar en el juego es gratis. Las jugadas sucias, fundar una empresa y los trámites de salida a bolsa cuestan un poco, y se pagan en ETH, USDC o GREED.</p>
-<dl style="margin: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px 24px; max-width: 520px">
-<dt style="color: #A9B4D6">Mantén para jugar y ganar premios</dt><dd class="num" style="margin: 0; text-align: right">100.000 GREED</dd>
-<dt style="color: #A9B4D6">Mantén para el Inside Line de Mr. Greed</dt><dd class="num" style="margin: 0; text-align: right">1.000.000 GREED</dd>
-<dt style="color: #A9B4D6">Emparejada con</dt><dd class="num" style="margin: 0; text-align: right; color: #E8B53A">GME en Base</dd>
-</dl>
-<p data-greed-pending style="margin: 0; max-width: 520px; box-sizing: border-box; padding: 12px 14px; border: 2px dashed #2F4080; background: #0A1230; color: #A9B4D6">GREED todavía no está en circulación. La dirección de su contrato aparecerá aquí en el lanzamiento.</p>
-<div data-greed-live hidden style="display: flex; flex-direction: column; gap: 18px; max-width: 520px">
-<p style="margin: 0; padding: 12px 14px; border: 2px dashed #2F4080; background: #0A1230; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px"><span data-greed-address class="num" style="min-width: 0; overflow-wrap: anywhere; font-size: 15px"></span><button type="button" data-greed-copy style="font-family: 'Press Start 2P', monospace; font-size: 10px; color: #E8B53A; background: none; border: 0; padding: 6px 0; cursor: pointer">COPIAR</button></p>
-<a class="btn" data-greed-buy href="#greed" target="_blank" rel="noopener" style="align-self: flex-start; font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00; background: #E8B53A; text-decoration: none; padding: 16px 20px; border: 3px solid #000; box-shadow: 5px 5px 0 #000">COMPRAR GREED</a>
-</div>
-</div>
+					<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+						<p style="margin: 0; max-width: 46ch">GREED es tu entrada a la Calle. Operar en el juego es
+							gratis. Las jugadas sucias, fundar una empresa y los trámites de salida a bolsa cuestan un
+							poco, y se pagan en ETH, USDC o GREED.</p>
+						<dl
+							style="margin: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px 24px; max-width: 520px">
+							<dt style="color: #A9B4D6">Mantén para jugar y ganar premios</dt>
+							<dd class="num" style="margin: 0; text-align: right">100.000 GREED</dd>
+							<dt style="color: #A9B4D6">Mantén para el Inside Line de Mr. Greed</dt>
+							<dd class="num" style="margin: 0; text-align: right">1.000.000 GREED</dd>
+							<dt style="color: #A9B4D6">Emparejada con</dt>
+							<dd class="num" style="margin: 0; text-align: right; color: #E8B53A">GME en Base</dd>
+						</dl>
+						<p data-greed-pending
+							style="margin: 0; max-width: 520px; box-sizing: border-box; padding: 12px 14px; border: 2px dashed #2F4080; background: #0A1230; color: #A9B4D6">
+							$GREED: 0xcbbaf485817b174a01e29b012e6e85435765d0a7</p>
+						<div data-greed-live hidden
+							style="display: flex; flex-direction: column; gap: 18px; max-width: 520px">
+							<p
+								style="margin: 0; padding: 12px 14px; border: 2px dashed #2F4080; background: #0A1230; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px">
+								<span data-greed-address class="num"
+									style="min-width: 0; overflow-wrap: anywhere; font-size: 15px"></span><button
+									type="button" data-greed-copy
+									style="font-family: 'Press Start 2P', monospace; font-size: 10px; color: #E8B53A; background: none; border: 0; padding: 6px 0; cursor: pointer">COPIAR</button>
+							</p>
+							<a class="btn" data-greed-buy href="#greed" target="_blank" rel="noopener"
+								style="align-self: flex-start; font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00; background: #E8B53A; text-decoration: none; padding: 16px 20px; border: 3px solid #000; box-shadow: 5px 5px 0 #000">COMPRAR
+								GREED</a>
+						</div>
+					</div>
 
-<div style="flex: 1 1 420px; min-width: 0; background: #0E1A40; border: 3px solid #000; box-shadow: 8px 8px 0 #000; padding: 26px; display: flex; flex-direction: column; gap: 18px">
-<h3 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #A9B4D6">ADÓNDE VA UN PAGO EN ETH O USDC</h3>
-<div aria-hidden="true" class="num" style="display: flex; height: 34px; border: 3px solid #000; font-size: 14px; font-weight: 600; color: #000"><span style="width: 50%; background: #5BE36B; display: grid; place-items: center">50%</span><span style="width: 40%; background: #E8B53A; display: grid; place-items: center">40%</span><span style="width: 10%; background: #A9B4D6; display: grid; place-items: center">10%</span></div>
-<dl style="margin: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px 24px">
-<dt><span aria-hidden="true" style="color: #5BE36B">■</span> Pozos de premios, pagados en acciones</dt><dd class="num" style="margin: 0">50%</dd>
-<dt><span aria-hidden="true" style="color: #E8B53A">■</span> Compra GREED para la tesorería</dt><dd class="num" style="margin: 0">40%</dd>
-<dt><span aria-hidden="true" style="color: #A9B4D6">■</span> Gastos de funcionamiento</dt><dd class="num" style="margin: 0">10%</dd>
-</dl>
-<p style="margin: 0; color: #A9B4D6">Si pagas en GREED, va directo a la tesorería.</p>
-</div>
+					<div
+						style="flex: 1 1 420px; min-width: 0; background: #0E1A40; border: 3px solid #000; box-shadow: 8px 8px 0 #000; padding: 26px; display: flex; flex-direction: column; gap: 18px">
+						<h3
+							style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #A9B4D6">
+							ADÓNDE VA UN PAGO EN ETH O USDC</h3>
+						<div aria-hidden="true" class="num"
+							style="display: flex; height: 34px; border: 3px solid #000; font-size: 14px; font-weight: 600; color: #000">
+							<span
+								style="width: 50%; background: #5BE36B; display: grid; place-items: center">50%</span><span
+								style="width: 40%; background: #E8B53A; display: grid; place-items: center">40%</span><span
+								style="width: 10%; background: #A9B4D6; display: grid; place-items: center">10%</span>
+						</div>
+						<dl
+							style="margin: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px 24px">
+							<dt><span aria-hidden="true" style="color: #5BE36B">■</span> Pozos de premios, pagados en
+								acciones</dt>
+							<dd class="num" style="margin: 0">50%</dd>
+							<dt><span aria-hidden="true" style="color: #E8B53A">■</span> Compra GREED para la tesorería
+							</dt>
+							<dd class="num" style="margin: 0">40%</dd>
+							<dt><span aria-hidden="true" style="color: #A9B4D6">■</span> Gastos de funcionamiento</dt>
+							<dd class="num" style="margin: 0">10%</dd>
+						</dl>
+						<p style="margin: 0; color: #A9B4D6">Si pagas en GREED, va directo a la tesorería.</p>
+					</div>
 
-</div>
-</div>
-</section>
+				</div>
+			</div>
+		</section>
 
-<section id="prizes" style="background: #0A1230">
-<div style="max-width: 1200px; margin: 0 auto; padding: 80px 24px; display: flex; flex-direction: column; gap: 36px">
-<h2 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 20px; line-height: 1.5; color: #E8B53A; text-shadow: 3px 3px 0 #000; text-wrap: balance">PREMIOS, PAGADOS EN ACCIONES</h2>
-<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 32px">
+		<section id="prizes" style="background: #0A1230">
+			<div
+				style="max-width: 1200px; margin: 0 auto; padding: 80px 24px; display: flex; flex-direction: column; gap: 36px">
+				<h2
+					style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 20px; line-height: 1.5; color: #E8B53A; text-shadow: 3px 3px 0 #000; text-wrap: balance">
+					PREMIOS, PAGADOS EN ACCIONES</h2>
+				<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 32px">
 
-<dl style="flex: 1 1 420px; min-width: 0; margin: 0; background: #0E1A40; border: 3px solid #000; box-shadow: 8px 8px 0 #000; display: flex; flex-direction: column">
-<div style="padding: 22px 26px; border-bottom: 3px solid #000; display: flex; flex-wrap: wrap; gap: 8px 24px">
-<dt style="flex: 0 0 150px; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #5BE36B">SE ORDENA POR</dt>
-<dd style="flex: 1 1 200px; min-width: 0; margin: 0">Cuánto creció tu patrimonio neto esta semana.</dd>
-</div>
-<div style="padding: 22px 26px; border-bottom: 3px solid #000; display: flex; flex-wrap: wrap; gap: 8px 24px">
-<dt style="flex: 0 0 150px; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #5BE36B">SE PAGA EN</dt>
-<dd style="flex: 1 1 200px; min-width: 0; margin: 0">Acciones, nunca GREED.</dd>
-</div>
-<div style="padding: 22px 26px; border-bottom: 3px solid #000; display: flex; flex-wrap: wrap; gap: 8px 24px">
-<dt style="flex: 0 0 150px; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #5BE36B">LIGAS</dt>
-<dd style="flex: 1 1 200px; min-width: 0; margin: 0">Las ligas de cuatro y de doce semanas corren junto a la tabla semanal.</dd>
-</div>
-<div style="padding: 22px 26px; display: flex; flex-wrap: wrap; gap: 8px 24px">
-<dt style="flex: 0 0 150px; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #5BE36B">PARA ENTRAR</dt>
-<dd style="flex: 1 1 200px; min-width: 0; margin: 0">Entra gratis con tu billetera, sin transacción. Mantén 100.000 GREED para jugar.</dd>
-</div>
-</dl>
+					<dl
+						style="flex: 1 1 420px; min-width: 0; margin: 0; background: #0E1A40; border: 3px solid #000; box-shadow: 8px 8px 0 #000; display: flex; flex-direction: column">
+						<div
+							style="padding: 22px 26px; border-bottom: 3px solid #000; display: flex; flex-wrap: wrap; gap: 8px 24px">
+							<dt
+								style="flex: 0 0 150px; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #5BE36B">
+								SE ORDENA POR</dt>
+							<dd style="flex: 1 1 200px; min-width: 0; margin: 0">Cuánto creció tu patrimonio neto esta
+								semana.</dd>
+						</div>
+						<div
+							style="padding: 22px 26px; border-bottom: 3px solid #000; display: flex; flex-wrap: wrap; gap: 8px 24px">
+							<dt
+								style="flex: 0 0 150px; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #5BE36B">
+								SE PAGA EN</dt>
+							<dd style="flex: 1 1 200px; min-width: 0; margin: 0">Acciones, nunca GREED.</dd>
+						</div>
+						<div
+							style="padding: 22px 26px; border-bottom: 3px solid #000; display: flex; flex-wrap: wrap; gap: 8px 24px">
+							<dt
+								style="flex: 0 0 150px; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #5BE36B">
+								LIGAS</dt>
+							<dd style="flex: 1 1 200px; min-width: 0; margin: 0">Las ligas de cuatro y de doce semanas
+								corren junto a la tabla semanal.</dd>
+						</div>
+						<div style="padding: 22px 26px; display: flex; flex-wrap: wrap; gap: 8px 24px">
+							<dt
+								style="flex: 0 0 150px; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #5BE36B">
+								PARA ENTRAR</dt>
+							<dd style="flex: 1 1 200px; min-width: 0; margin: 0">Entra gratis con tu billetera, sin
+								transacción. Mantén 100.000 GREED para jugar.</dd>
+						</div>
+					</dl>
 
-<div style="flex: 1 1 480px; min-width: 0; background: #0E1A40; border: 3px solid #000; box-shadow: 8px 8px 0 #000; overflow-x: auto">
-<table style="width: 100%; border-collapse: collapse">
-<caption style="padding: 18px 18px 6px; text-align: left; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #5BE36B">LOS CINCO POZOS</caption>
-<thead><tr><th scope="col" style="padding: 14px 18px; text-align: left; font-weight: 400; color: #A9B4D6; font-size: 15px; border-bottom: 3px solid #000">Pozo</th><th scope="col" style="padding: 14px 18px; text-align: left; font-weight: 400; color: #A9B4D6; font-size: 15px; border-bottom: 3px solid #000">Quién gana</th><th scope="col" style="padding: 14px 18px; text-align: right; font-weight: 400; color: #A9B4D6; font-size: 15px; border-bottom: 3px solid #000">Parte</th></tr></thead>
-<tbody>
-<tr><th scope="row" style="padding: 16px 18px; text-align: left; font-weight: 600; border-bottom: 3px solid #000;">Top 10 semanal</th><td style="padding: 16px 18px; color: #A9B4D6; border-bottom: 3px solid #000;">Mayor crecimiento de patrimonio neto esta semana</td><td class="num" style="padding: 16px 18px; text-align: right; border-bottom: 3px solid #000;">50%</td></tr>
-<tr><th scope="row" style="padding: 16px 18px; text-align: left; font-weight: 600; border-bottom: 3px solid #000;">Liga mensual</th><td style="padding: 16px 18px; color: #A9B4D6; border-bottom: 3px solid #000;">Más puntos en cuatro semanas</td><td class="num" style="padding: 16px 18px; text-align: right; border-bottom: 3px solid #000;">20%</td></tr>
-<tr><th scope="row" style="padding: 16px 18px; text-align: left; font-weight: 600; border-bottom: 3px solid #000;">Liga de 3 meses</th><td style="padding: 16px 18px; color: #A9B4D6; border-bottom: 3px solid #000;">Más puntos en doce semanas</td><td class="num" style="padding: 16px 18px; text-align: right; border-bottom: 3px solid #000;">20%</td></tr>
-<tr><th scope="row" style="padding: 16px 18px; text-align: left; font-weight: 600; border-bottom: 3px solid #000;">Premio IPO</th><td style="padding: 16px 18px; color: #A9B4D6; border-bottom: 3px solid #000;">Fundar más empresas que nadie en un bloque de cuatro semanas, con cada una cotizando todavía por encima de su precio de salida a bolsa cuando termina</td><td class="num" style="padding: 16px 18px; text-align: right; border-bottom: 3px solid #000;">5%</td></tr>
-<tr><th scope="row" style="padding: 16px 18px; text-align: left; font-weight: 600;">Recompensa del creador</th><td style="padding: 16px 18px; color: #A9B4D6;">Va para el creador del juego cada semana, en la cadena, para que cualquiera lo verifique</td><td class="num" style="padding: 16px 18px; text-align: right;">5%</td></tr>
-</tbody>
-</table>
-</div>
+					<div
+						style="flex: 1 1 480px; min-width: 0; background: #0E1A40; border: 3px solid #000; box-shadow: 8px 8px 0 #000; overflow-x: auto">
+						<table style="width: 100%; border-collapse: collapse">
+							<caption
+								style="padding: 18px 18px 6px; text-align: left; font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #5BE36B">
+								LOS CINCO POZOS</caption>
+							<thead>
+								<tr>
+									<th scope="col"
+										style="padding: 14px 18px; text-align: left; font-weight: 400; color: #A9B4D6; font-size: 15px; border-bottom: 3px solid #000">
+										Pozo</th>
+									<th scope="col"
+										style="padding: 14px 18px; text-align: left; font-weight: 400; color: #A9B4D6; font-size: 15px; border-bottom: 3px solid #000">
+										Quién gana</th>
+									<th scope="col"
+										style="padding: 14px 18px; text-align: right; font-weight: 400; color: #A9B4D6; font-size: 15px; border-bottom: 3px solid #000">
+										Parte</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th scope="row"
+										style="padding: 16px 18px; text-align: left; font-weight: 600; border-bottom: 3px solid #000;">
+										Top 10 semanal</th>
+									<td style="padding: 16px 18px; color: #A9B4D6; border-bottom: 3px solid #000;">Mayor
+										crecimiento de patrimonio neto esta semana</td>
+									<td class="num"
+										style="padding: 16px 18px; text-align: right; border-bottom: 3px solid #000;">
+										50%</td>
+								</tr>
+								<tr>
+									<th scope="row"
+										style="padding: 16px 18px; text-align: left; font-weight: 600; border-bottom: 3px solid #000;">
+										Liga mensual</th>
+									<td style="padding: 16px 18px; color: #A9B4D6; border-bottom: 3px solid #000;">Más
+										puntos en cuatro semanas</td>
+									<td class="num"
+										style="padding: 16px 18px; text-align: right; border-bottom: 3px solid #000;">
+										20%</td>
+								</tr>
+								<tr>
+									<th scope="row"
+										style="padding: 16px 18px; text-align: left; font-weight: 600; border-bottom: 3px solid #000;">
+										Liga de 3 meses</th>
+									<td style="padding: 16px 18px; color: #A9B4D6; border-bottom: 3px solid #000;">Más
+										puntos en doce semanas</td>
+									<td class="num"
+										style="padding: 16px 18px; text-align: right; border-bottom: 3px solid #000;">
+										20%</td>
+								</tr>
+								<tr>
+									<th scope="row"
+										style="padding: 16px 18px; text-align: left; font-weight: 600; border-bottom: 3px solid #000;">
+										Premio IPO</th>
+									<td style="padding: 16px 18px; color: #A9B4D6; border-bottom: 3px solid #000;">
+										Fundar más empresas que nadie en un bloque de cuatro semanas, con cada una
+										cotizando todavía por encima de su precio de salida a bolsa cuando termina</td>
+									<td class="num"
+										style="padding: 16px 18px; text-align: right; border-bottom: 3px solid #000;">5%
+									</td>
+								</tr>
+								<tr>
+									<th scope="row" style="padding: 16px 18px; text-align: left; font-weight: 600;">
+										Recompensa del creador</th>
+									<td style="padding: 16px 18px; color: #A9B4D6;">Va para el creador del juego cada
+										semana, en la cadena, para que cualquiera lo verifique</td>
+									<td class="num" style="padding: 16px 18px; text-align: right;">5%</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 
-</div>
-</div>
-</section>
+				</div>
+			</div>
+		</section>
 
-<section id="roadmap" style="border-top: 3px solid #000; background: #08102A">
-<div style="max-width: 1200px; margin: 0 auto; padding: 80px 24px; display: flex; flex-direction: column; gap: 36px">
-<div style="display: flex; flex-direction: column; gap: 14px">
-<h2 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 20px; line-height: 1.5; color: #E8B53A; text-shadow: 3px 3px 0 #000">HOJA DE RUTA</h2>
-<p style="margin: 0; color: #A9B4D6; max-width: 60ch">Hacia dónde va la Calle, nivel por nivel. El orden puede cambiar mientras jugamos.</p>
-</div>
+		<section id="roadmap" style="border-top: 3px solid #000; background: #08102A">
+			<div
+				style="max-width: 1200px; margin: 0 auto; padding: 80px 24px; display: flex; flex-direction: column; gap: 36px">
+				<div style="display: flex; flex-direction: column; gap: 14px">
+					<h2
+						style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 20px; line-height: 1.5; color: #E8B53A; text-shadow: 3px 3px 0 #000">
+						HOJA DE RUTA</h2>
+					<p style="margin: 0; color: #A9B4D6; max-width: 60ch">Hacia dónde va la Calle, nivel por nivel. El
+						orden puede cambiar mientras jugamos.</p>
+				</div>
 
-<article style="background: #0E1A40; border: 3px solid #5BE36B; box-shadow: 8px 8px 0 #000; padding: 28px; display: flex; flex-direction: column; gap: 22px">
-<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px">
-<p style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 11px; color: #04210A; background: #5BE36B; padding: 6px 8px; border: 2px solid #000">NIVEL 0</p>
-<h3 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 16px; color: #5BE36B">LANZAMIENTO</h3>
-</div>
-<ul style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 12px 32px">
-<li style="display: flex; gap: 12px"><span aria-hidden="true" style="color: #5BE36B">■</span><span>La Calle: opera con empresas ficticias cuyos precios mueves tú</span></li>
-<li style="display: flex; gap: 12px"><span aria-hidden="true" style="color: #5BE36B">■</span><span>Una economía: la tasa de la Fed, el PIB y el petróleo mueven todos los sectores</span></li>
-<li style="display: flex; gap: 12px"><span aria-hidden="true" style="color: #5BE36B">■</span><span>El control y el despacho del CEO</span></li>
-<li style="display: flex; gap: 12px"><span aria-hidden="true" style="color: #5BE36B">■</span><span>Jugadas sucias: rumores, demandas, infladas, quejas y cumplimiento</span></li>
-<li style="display: flex; gap: 12px"><span aria-hidden="true" style="color: #5BE36B">■</span><span>Una nueva empresa en bolsa cada semana, y salidas a bolsa para las que fundes</span></li>
-<li style="display: flex; gap: 12px"><span aria-hidden="true" style="color: #5BE36B">■</span><span>Temporadas semanales, ligas y premios pagados en acciones</span></li>
-<li style="display: flex; gap: 12px"><span aria-hidden="true" style="color: #E8B53A">■</span><span style="color: #E8B53A">Nombres del juego: .greed, .base y .stonks</span></li>
-</ul>
-</article>
+				<article
+					style="background: #0E1A40; border: 3px solid #5BE36B; box-shadow: 8px 8px 0 #000; padding: 28px; display: flex; flex-direction: column; gap: 22px">
+					<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px">
+						<p
+							style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 11px; color: #04210A; background: #5BE36B; padding: 6px 8px; border: 2px solid #000">
+							NIVEL 0</p>
+						<h3
+							style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 16px; color: #5BE36B">
+							LANZAMIENTO</h3>
+					</div>
+					<ul
+						style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 12px 32px">
+						<li style="display: flex; gap: 12px"><span aria-hidden="true"
+								style="color: #5BE36B">■</span><span>La Calle: opera con empresas ficticias cuyos
+								precios mueves tú</span></li>
+						<li style="display: flex; gap: 12px"><span aria-hidden="true"
+								style="color: #5BE36B">■</span><span>Una economía: la tasa de la Fed, el PIB y el
+								petróleo mueven todos los sectores</span></li>
+						<li style="display: flex; gap: 12px"><span aria-hidden="true"
+								style="color: #5BE36B">■</span><span>El control y el despacho del CEO</span></li>
+						<li style="display: flex; gap: 12px"><span aria-hidden="true"
+								style="color: #5BE36B">■</span><span>Jugadas sucias: rumores, demandas, infladas, quejas
+								y cumplimiento</span></li>
+						<li style="display: flex; gap: 12px"><span aria-hidden="true"
+								style="color: #5BE36B">■</span><span>Una nueva empresa en bolsa cada semana, y salidas a
+								bolsa para las que fundes</span></li>
+						<li style="display: flex; gap: 12px"><span aria-hidden="true"
+								style="color: #5BE36B">■</span><span>Temporadas semanales, ligas y premios pagados en
+								acciones</span></li>
+						<li style="display: flex; gap: 12px"><span aria-hidden="true"
+								style="color: #E8B53A">■</span><span style="color: #E8B53A">Nombres del juego: .greed,
+								.base y .stonks</span></li>
+					</ul>
+				</article>
 
-<ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 24px">
-<li style="background: #0E1A40; border: 3px solid #000; box-shadow: 5px 5px 0 #000; padding: 20px 22px; display: flex; gap: 18px; align-items: flex-start">
-<span style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00; background: #E8B53A; padding: 6px 8px; border: 2px solid #000; flex: none">01</span>
-<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0"><h3 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 12px; line-height: 1.6; color: #F4F4F4">CIMIENTOS</h3><p style="margin: 0; color: #A9B4D6">Las operaciones grandes mueven menos los precios, y el mal karma hace que te pillen más.</p></div>
-</li>
-<li style="background: #0E1A40; border: 3px solid #000; box-shadow: 5px 5px 0 #000; padding: 20px 22px; display: flex; gap: 18px; align-items: flex-start">
-<span style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00; background: #E8B53A; padding: 6px 8px; border: 2px solid #000; flex: none">02</span>
-<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0"><h3 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 12px; line-height: 1.6; color: #F4F4F4">MOTOR DE EMPRESAS</h3><p style="margin: 0; color: #A9B4D6">Cada empresa lleva un negocio de verdad: activos, gerentes, demanda de su industria y resultados trimestrales reales.</p></div>
-</li>
-<li style="background: #0E1A40; border: 3px solid #000; box-shadow: 5px 5px 0 #000; padding: 20px 22px; display: flex; gap: 18px; align-items: flex-start">
-<span style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00; background: #E8B53A; padding: 6px 8px; border: 2px solid #000; flex: none">03</span>
-<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0"><h3 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 12px; line-height: 1.6; color: #F4F4F4">DESPACHO DEL CEO V2</h3><p style="margin: 0; color: #A9B4D6">Dirige el negocio: I+D, crecimiento, gestión y sueldo ligado a los resultados.</p></div>
-</li>
-</ol>
+				<ol
+					style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 24px">
+					<li
+						style="background: #0E1A40; border: 3px solid #000; box-shadow: 5px 5px 0 #000; padding: 20px 22px; display: flex; gap: 18px; align-items: flex-start">
+						<span
+							style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00; background: #E8B53A; padding: 6px 8px; border: 2px solid #000; flex: none">01</span>
+						<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0">
+							<h3
+								style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 12px; line-height: 1.6; color: #F4F4F4">
+								CIMIENTOS</h3>
+							<p style="margin: 0; color: #A9B4D6">Las operaciones grandes mueven menos los precios, y el
+								mal karma hace que te pillen más.</p>
+						</div>
+					</li>
+					<li
+						style="background: #0E1A40; border: 3px solid #000; box-shadow: 5px 5px 0 #000; padding: 20px 22px; display: flex; gap: 18px; align-items: flex-start">
+						<span
+							style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00; background: #E8B53A; padding: 6px 8px; border: 2px solid #000; flex: none">02</span>
+						<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0">
+							<h3
+								style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 12px; line-height: 1.6; color: #F4F4F4">
+								MOTOR DE EMPRESAS</h3>
+							<p style="margin: 0; color: #A9B4D6">Cada empresa lleva un negocio de verdad: activos,
+								gerentes, demanda de su industria y resultados trimestrales reales.</p>
+						</div>
+					</li>
+					<li
+						style="background: #0E1A40; border: 3px solid #000; box-shadow: 5px 5px 0 #000; padding: 20px 22px; display: flex; gap: 18px; align-items: flex-start">
+						<span
+							style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00; background: #E8B53A; padding: 6px 8px; border: 2px solid #000; flex: none">03</span>
+						<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0">
+							<h3
+								style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 12px; line-height: 1.6; color: #F4F4F4">
+								DESPACHO DEL CEO V2</h3>
+							<p style="margin: 0; color: #A9B4D6">Dirige el negocio: I+D, crecimiento, gestión y sueldo
+								ligado a los resultados.</p>
+						</div>
+					</li>
+				</ol>
 
-<details>
-<summary style="font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #E8B53A; padding: 10px 0"><span class="more">▸ VER LOS 7 NIVELES SIGUIENTES</span><span class="less">▾ OCULTAR LOS NIVELES SIGUIENTES</span></summary>
-<ol start="4" style="margin: 24px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 24px">
-<li style="background: #0E1A40; border: 3px solid #000; box-shadow: 5px 5px 0 #000; padding: 20px 22px; display: flex; gap: 18px; align-items: flex-start">
-<span style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00; background: #E8B53A; padding: 6px 8px; border: 2px solid #000; flex: none">04</span>
-<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0"><h3 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 12px; line-height: 1.6; color: #F4F4F4">DINERO Y DEUDA</h3><p style="margin: 0; color: #A9B4D6">Rendimientos de bonos, préstamos con margen y llamadas de margen, deuda de las empresas y calificaciones de crédito.</p></div>
-</li>
-<li style="background: #0E1A40; border: 3px solid #000; box-shadow: 5px 5px 0 #000; padding: 20px 22px; display: flex; gap: 18px; align-items: flex-start">
-<span style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00; background: #E8B53A; padding: 6px 8px; border: 2px solid #000; flex: none">05</span>
-<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0"><h3 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 12px; line-height: 1.6; color: #F4F4F4">QUIEBRAS Y APUESTAS</h3><p style="margin: 0; color: #A9B4D6">Las empresas pueden quebrar, y puedes apostar a eso con puts y calls.</p></div>
-</li>
-<li style="background: #0E1A40; border: 3px solid #000; box-shadow: 5px 5px 0 #000; padding: 20px 22px; display: flex; gap: 18px; align-items: flex-start">
-<span style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00; background: #E8B53A; padding: 6px 8px; border: 2px solid #000; flex: none">06</span>
-<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0"><h3 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 12px; line-height: 1.6; color: #F4F4F4">JUGADAS SUCIAS DE CEO</h3><p style="margin: 0; color: #A9B4D6">Maquilla las cuentas, presenta demandas antimonopolio y compra y vende activos del negocio. Los reguladores están mirando.</p></div>
-</li>
-<li style="background: #0E1A40; border: 3px solid #000; box-shadow: 5px 5px 0 #000; padding: 20px 22px; display: flex; gap: 18px; align-items: flex-start">
-<span style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00; background: #E8B53A; padding: 6px 8px; border: 2px solid #000; flex: none">07</span>
-<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0"><h3 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 12px; line-height: 1.6; color: #F4F4F4">PELEAS POR EL CONTROL</h3><p style="margin: 0; color: #A9B4D6">Ofertas de adquisición, la regla del 5%, un bot tiburón, greenmail y caballeros blancos.</p></div>
-</li>
-<li style="background: #0E1A40; border: 3px solid #000; box-shadow: 5px 5px 0 #000; padding: 20px 22px; display: flex; gap: 18px; align-items: flex-start">
-<span style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00; background: #E8B53A; padding: 6px 8px; border: 2px solid #000; flex: none">08</span>
-<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0"><h3 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 12px; line-height: 1.6; color: #F4F4F4">INFORMACIÓN</h3><p style="margin: 0; color: #A9B4D6">Una pantalla de análisis, y datos de información privilegiada que puedes comprar, si no te importa el riesgo.</p></div>
-</li>
-<li style="background: #0E1A40; border: 3px solid #000; box-shadow: 5px 5px 0 #000; padding: 20px 22px; display: flex; gap: 18px; align-items: flex-start">
-<span style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00; background: #E8B53A; padding: 6px 8px; border: 2px solid #000; flex: none">09</span>
-<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0"><h3 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 12px; line-height: 1.6; color: #F4F4F4">MERCADOS</h3><p style="margin: 0; color: #A9B4D6">Primero futuros de petróleo, luego más materias primas, un futuro de cripto y un futuro de índice.</p></div>
-</li>
-<li style="background: #0E1A40; border: 3px solid #000; box-shadow: 5px 5px 0 #000; padding: 20px 22px; display: flex; gap: 18px; align-items: flex-start">
-<span style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00; background: #E8B53A; padding: 6px 8px; border: 2px solid #000; flex: none">10</span>
-<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0"><h3 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 12px; line-height: 1.6; color: #F4F4F4">PILOTO AUTOMÁTICO</h3><p style="margin: 0; color: #A9B4D6">Entrégale al juego cualquier empresa que dirijas, y la dirige por ti.</p></div>
-</li>
-</ol>
-</details>
-</div>
-</section>
+				<details>
+					<summary
+						style="font-family: 'Press Start 2P', monospace; font-size: 11px; line-height: 1.6; color: #E8B53A; padding: 10px 0">
+						<span class="more">▸ VER LOS 7 NIVELES SIGUIENTES</span><span class="less">▾ OCULTAR LOS NIVELES
+							SIGUIENTES</span></summary>
+					<ol start="4"
+						style="margin: 24px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); gap: 24px">
+						<li
+							style="background: #0E1A40; border: 3px solid #000; box-shadow: 5px 5px 0 #000; padding: 20px 22px; display: flex; gap: 18px; align-items: flex-start">
+							<span
+								style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00; background: #E8B53A; padding: 6px 8px; border: 2px solid #000; flex: none">04</span>
+							<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0">
+								<h3
+									style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 12px; line-height: 1.6; color: #F4F4F4">
+									DINERO Y DEUDA</h3>
+								<p style="margin: 0; color: #A9B4D6">Rendimientos de bonos, préstamos con margen y
+									llamadas de margen, deuda de las empresas y calificaciones de crédito.</p>
+							</div>
+						</li>
+						<li
+							style="background: #0E1A40; border: 3px solid #000; box-shadow: 5px 5px 0 #000; padding: 20px 22px; display: flex; gap: 18px; align-items: flex-start">
+							<span
+								style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00; background: #E8B53A; padding: 6px 8px; border: 2px solid #000; flex: none">05</span>
+							<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0">
+								<h3
+									style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 12px; line-height: 1.6; color: #F4F4F4">
+									QUIEBRAS Y APUESTAS</h3>
+								<p style="margin: 0; color: #A9B4D6">Las empresas pueden quebrar, y puedes apostar a eso
+									con puts y calls.</p>
+							</div>
+						</li>
+						<li
+							style="background: #0E1A40; border: 3px solid #000; box-shadow: 5px 5px 0 #000; padding: 20px 22px; display: flex; gap: 18px; align-items: flex-start">
+							<span
+								style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00; background: #E8B53A; padding: 6px 8px; border: 2px solid #000; flex: none">06</span>
+							<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0">
+								<h3
+									style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 12px; line-height: 1.6; color: #F4F4F4">
+									JUGADAS SUCIAS DE CEO</h3>
+								<p style="margin: 0; color: #A9B4D6">Maquilla las cuentas, presenta demandas
+									antimonopolio y compra y vende activos del negocio. Los reguladores están mirando.
+								</p>
+							</div>
+						</li>
+						<li
+							style="background: #0E1A40; border: 3px solid #000; box-shadow: 5px 5px 0 #000; padding: 20px 22px; display: flex; gap: 18px; align-items: flex-start">
+							<span
+								style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00; background: #E8B53A; padding: 6px 8px; border: 2px solid #000; flex: none">07</span>
+							<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0">
+								<h3
+									style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 12px; line-height: 1.6; color: #F4F4F4">
+									PELEAS POR EL CONTROL</h3>
+								<p style="margin: 0; color: #A9B4D6">Ofertas de adquisición, la regla del 5%, un bot
+									tiburón, greenmail y caballeros blancos.</p>
+							</div>
+						</li>
+						<li
+							style="background: #0E1A40; border: 3px solid #000; box-shadow: 5px 5px 0 #000; padding: 20px 22px; display: flex; gap: 18px; align-items: flex-start">
+							<span
+								style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00; background: #E8B53A; padding: 6px 8px; border: 2px solid #000; flex: none">08</span>
+							<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0">
+								<h3
+									style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 12px; line-height: 1.6; color: #F4F4F4">
+									INFORMACIÓN</h3>
+								<p style="margin: 0; color: #A9B4D6">Una pantalla de análisis, y datos de información
+									privilegiada que puedes comprar, si no te importa el riesgo.</p>
+							</div>
+						</li>
+						<li
+							style="background: #0E1A40; border: 3px solid #000; box-shadow: 5px 5px 0 #000; padding: 20px 22px; display: flex; gap: 18px; align-items: flex-start">
+							<span
+								style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00; background: #E8B53A; padding: 6px 8px; border: 2px solid #000; flex: none">09</span>
+							<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0">
+								<h3
+									style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 12px; line-height: 1.6; color: #F4F4F4">
+									MERCADOS</h3>
+								<p style="margin: 0; color: #A9B4D6">Primero futuros de petróleo, luego más materias
+									primas, un futuro de cripto y un futuro de índice.</p>
+							</div>
+						</li>
+						<li
+							style="background: #0E1A40; border: 3px solid #000; box-shadow: 5px 5px 0 #000; padding: 20px 22px; display: flex; gap: 18px; align-items: flex-start">
+							<span
+								style="font-family: 'Press Start 2P', monospace; font-size: 11px; color: #2A1A00; background: #E8B53A; padding: 6px 8px; border: 2px solid #000; flex: none">10</span>
+							<div style="display: flex; flex-direction: column; gap: 8px; min-width: 0">
+								<h3
+									style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 12px; line-height: 1.6; color: #F4F4F4">
+									PILOTO AUTOMÁTICO</h3>
+								<p style="margin: 0; color: #A9B4D6">Entrégale al juego cualquier empresa que dirijas, y
+									la dirige por ti.</p>
+							</div>
+						</li>
+					</ol>
+				</details>
+			</div>
+		</section>
 
-<section id="play" style="border-top: 3px solid #000; border-bottom: 3px solid #000; background: #5BE36B; color: #04210A">
-<div style="max-width: 1200px; margin: 0 auto; padding: 64px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 32px">
-<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
-<h2 style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: clamp(18px, 2.4vw, 26px); line-height: 1.6; text-wrap: balance">CADA SEMANA, UNA NUEVA EMPRESA Y UNA NUEVA TABLA.</h2>
-<p style="margin: 0; font-size: 20px">Entra gratis con tu billetera. Mantén 100.000 GREED para jugar.</p>
-</div>
-<a class="btn" data-play data-live-label="▶ JUGAR YA" href="https://x.com/StonkStreetMeme" target="_blank" rel="noopener" style="font-family: 'Press Start 2P', monospace; font-size: 14px; color: #5BE36B; background: #08102A; text-decoration: none; padding: 22px 28px; border: 3px solid #000; box-shadow: 6px 6px 0 #000">ABRE EN EL LANZAMIENTO</a>
-</div>
-</section>
+		<section id="play"
+			style="border-top: 3px solid #000; border-bottom: 3px solid #000; background: #5BE36B; color: #04210A">
+			<div
+				style="max-width: 1200px; margin: 0 auto; padding: 64px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 32px">
+				<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+					<h2
+						style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: clamp(18px, 2.4vw, 26px); line-height: 1.6; text-wrap: balance">
+						CADA SEMANA, UNA NUEVA EMPRESA Y UNA NUEVA TABLA.</h2>
+					<p style="margin: 0; font-size: 20px">Entra gratis con tu billetera. Mantén 100.000 GREED para
+						jugar.</p>
+				</div>
+				<a class="btn" data-play data-live-label="▶ JUGAR YA" href="https://x.com/StonkStreetMeme"
+					target="_blank" rel="noopener"
+					style="font-family: 'Press Start 2P', monospace; font-size: 14px; color: #5BE36B; background: #08102A; text-decoration: none; padding: 22px 28px; border: 3px solid #000; box-shadow: 6px 6px 0 #000">ABRE
+					EN EL LANZAMIENTO</a>
+			</div>
+		</section>
 
-<footer style="background: #0A1230">
-<div style="max-width: 1200px; margin: 0 auto; padding: 36px 24px 44px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 24px">
-<div style="display: flex; flex-direction: column; gap: 8px; flex: 1 1 320px; min-width: 0">
-<p style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 12px; color: #E8B53A">STONKSTREET</p>
-<p style="margin: 0; color: #A9B4D6">Un juego de trading en Base. Todas las empresas de la Calle son ficticias.</p>
-</div>
-<nav aria-label="Pie de página" style="display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: flex-start">
-<a href="#how">Cómo jugar</a>
-<a href="#greed">GREED</a>
-<a href="#prizes">Premios</a>
-<a href="#roadmap">Hoja de ruta</a>
-<a href="https://x.com/StonkStreetMeme" target="_blank" rel="noopener">En X</a>
-<a href="https://t.me/stonkstreetmeme" target="_blank" rel="noopener">Noticias en Telegram</a>
-<a href="https://t.me/stonkstreetexchange" target="_blank" rel="noopener">Chat en Telegram</a>
-<a data-play data-live-label="Jugar" href="https://x.com/StonkStreetMeme" target="_blank" rel="noopener">Abre en el lanzamiento</a>
-</nav>
-</div>
-</footer>
+		<footer style="background: #0A1230">
+			<div
+				style="max-width: 1200px; margin: 0 auto; padding: 36px 24px 44px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 24px">
+				<div style="display: flex; flex-direction: column; gap: 8px; flex: 1 1 320px; min-width: 0">
+					<p style="margin: 0; font-family: 'Press Start 2P', monospace; font-size: 12px; color: #E8B53A">
+						STONKSTREET</p>
+					<p style="margin: 0; color: #A9B4D6">Un juego de trading en Base. Todas las empresas de la Calle son
+						ficticias.</p>
+				</div>
+				<nav aria-label="Pie de página"
+					style="display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: flex-start">
+					<a href="#how">Cómo jugar</a>
+					<a href="#greed">GREED</a>
+					<a href="#prizes">Premios</a>
+					<a href="#roadmap">Hoja de ruta</a>
+					<a href="https://x.com/StonkStreetMeme" target="_blank" rel="noopener">En X</a>
+					<a href="https://t.me/stonkstreetmeme" target="_blank" rel="noopener">Noticias en Telegram</a>
+					<a href="https://t.me/stonkstreetexchange" target="_blank" rel="noopener">Chat en Telegram</a>
+					<a data-play data-live-label="Jugar" href="https://x.com/StonkStreetMeme" target="_blank"
+						rel="noopener">Abre en el lanzamiento</a>
+				</nav>
+			</div>
+		</footer>
 
-</div>
-<script>
-/* The launch switch. Until the game is up, every Play button reads as pre-launch and points to X.
-   Set live to true to turn the real links on; set greedAddress and greedBuyUrl once the coin exists. */
-const LAUNCH = {
-	live: false,
-	playUrl: 'https://play.stonkstreet.exchange',
-	greedAddress: '',
-	greedBuyUrl: '',
-};
-if (LAUNCH.live) {
-	for (const a of document.querySelectorAll('[data-play]')) {
-		a.href = LAUNCH.playUrl;
-		a.textContent = a.dataset.liveLabel;
-		a.removeAttribute('target');
-		a.removeAttribute('rel');
-	}
-	for (const el of document.querySelectorAll('[data-prelaunch]')) el.hidden = true;
-	for (const el of document.querySelectorAll('[data-live]')) el.hidden = false;
-}
-if (LAUNCH.greedAddress) {
-	document.querySelector('[data-greed-pending]').hidden = true;
-	const live = document.querySelector('[data-greed-live]');
-	live.hidden = false;
-	live.querySelector('[data-greed-address]').textContent = LAUNCH.greedAddress;
-	const copy = live.querySelector('[data-greed-copy]');
-	copy.addEventListener('click', () => {
-		navigator.clipboard.writeText(LAUNCH.greedAddress).then(
-			() => (copy.textContent = 'COPIADA'),
-			() => (copy.textContent = 'SELECCIÓNALA PARA COPIAR'),
-		);
-	});
-	const buy = live.querySelector('[data-greed-buy]');
-	if (LAUNCH.greedBuyUrl) buy.href = LAUNCH.greedBuyUrl;
-	else buy.hidden = true;
-}
-</script>
+	</div>
+	<script>
+		/* The launch switch. Until the game is up, every Play button reads as pre-launch and points to X.
+		   Set live to true to turn the real links on; set greedAddress and greedBuyUrl once the coin exists. */
+		const LAUNCH = {
+			live: false,
+			playUrl: 'https://play.stonkstreet.exchange',
+			greedAddress: '',
+			greedBuyUrl: '',
+		};
+		if (LAUNCH.live) {
+			for (const a of document.querySelectorAll('[data-play]')) {
+				a.href = LAUNCH.playUrl;
+				a.textContent = a.dataset.liveLabel;
+				a.removeAttribute('target');
+				a.removeAttribute('rel');
+			}
+			for (const el of document.querySelectorAll('[data-prelaunch]')) el.hidden = true;
+			for (const el of document.querySelectorAll('[data-live]')) el.hidden = false;
+		}
+		if (LAUNCH.greedAddress) {
+			document.querySelector('[data-greed-pending]').hidden = true;
+			const live = document.querySelector('[data-greed-live]');
+			live.hidden = false;
+			live.querySelector('[data-greed-address]').textContent = LAUNCH.greedAddress;
+			const copy = live.querySelector('[data-greed-copy]');
+			copy.addEventListener('click', () => {
+				navigator.clipboard.writeText(LAUNCH.greedAddress).then(
+					() => (copy.textContent = 'COPIADA'),
+					() => (copy.textContent = 'SELECCIÓNALA PARA COPIAR'),
+				);
+			});
+			const buy = live.querySelector('[data-greed-buy]');
+			if (LAUNCH.greedBuyUrl) buy.href = LAUNCH.greedBuyUrl;
+			else buy.hidden = true;
+		}
+	</script>
 </body>
+
 </html>
