@@ -796,10 +796,10 @@
 		/* The launch switch. Until the game is up, every Play button reads as pre-launch and points to X.
 		   Set live to true to turn the real links on; set greedAddress and greedBuyUrl once the coin exists. */
 		const LAUNCH = {
-			live: false,
+			live: true,
 			playUrl: 'https://play.stonkstreet.exchange',
-			greedAddress: '',
-			greedBuyUrl: '',
+			greedAddress: '0xcbbaf485817b174a01e29b012e6e85435765d0a7',
+			greedBuyUrl: 'https://www.thestonks.exchange/token/0xcbbaf485817b174a01e29b012e6e85435765d0a7',
 		};
 		if (LAUNCH.live) {
 			for (const a of document.querySelectorAll('[data-play]')) {
