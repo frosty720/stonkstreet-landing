@@ -71,9 +71,9 @@ test('Telegram is linked: the news channel from the hero line and the footer, th
 	for (const a of anchors(html).filter((a) => a.href?.startsWith('https://t.me/'))) assert.match(a.attrs, /target="_blank" rel="noopener"/);
 });
 
-test('GREED is explained: the holds, the GOOGL pair and where a payment goes, which adds up to all of it', () => {
+test('GREED is explained: the holds, the GME pair and where a payment goes, which adds up to all of it', () => {
 	const greed = html.slice(html.indexOf('<section id="greed"'), html.indexOf('<section id="prizes"'));
-	for (const words of ['100,000 GREED', '1,000,000 GREED', 'GOOGL on Base', 'Paying in GREED sends it straight to the treasury.']) assert.ok(greed.includes(words), words);
+	for (const words of ['100,000 GREED', '1,000,000 GREED', 'GME on Base', 'Paying in GREED sends it straight to the treasury.']) assert.ok(greed.includes(words), words);
 	const shares = [...greed.matchAll(/<dd class="num" style="margin: 0">(\d+)%<\/dd>/g)].map((m) => Number(m[1]));
 	assert.deepEqual(shares, [50, 40, 10]);
 	assert.equal(shares.reduce((a, b) => a + b), 100);
