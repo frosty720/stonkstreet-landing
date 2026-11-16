@@ -402,6 +402,23 @@
 							<dt style="color: #A9B4D6">Emparejada con</dt>
 							<dd class="num" style="margin: 0; text-align: right; color: #E8B53A">GME en Base</dd>
 						</dl>
+						<div data-greed-market hidden
+							style="max-width: 520px; box-sizing: border-box; padding: 14px; border: 2px dashed #2F4080; background: #0A1230; display: flex; flex-direction: column; gap: 12px">
+							<dl
+								style="margin: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px 24px">
+								<dt style="color: #A9B4D6">Precio</dt>
+								<dd class="num" data-market="price" style="margin: 0; text-align: right; color: #E8B53A">—</dd>
+								<dt style="color: #A9B4D6">Capitalización (suministro total)</dt>
+								<dd class="num" data-market="cap" style="margin: 0; text-align: right">—</dd>
+								<dt style="color: #A9B4D6">Liquidez del pool</dt>
+								<dd class="num" data-market="liquidity" style="margin: 0; text-align: right">—</dd>
+							</dl>
+							<p style="margin: 0; font-size: 14px; color: #A9B4D6"><span data-market="updated">Cargando…</span> · <a
+									href="https://gmgn.ai/base/token/0xcbbaf485817b174a01e29b012e6e85435765d0a7" target="_blank"
+									rel="noopener">Gráfico en GMGN</a> · <a
+									href="https://basescan.org/token/0xcbbaf485817b174a01e29b012e6e85435765d0a7" target="_blank"
+									rel="noopener">BaseScan</a></p>
+						</div>
 						<p data-greed-pending
 							style="margin: 0; max-width: 520px; box-sizing: border-box; padding: 12px 14px; border: 2px dashed #2F4080; background: #0A1230; color: #A9B4D6">
 							$GREED: 0xcbbaf485817b174a01e29b012e6e85435765d0a7</p>
@@ -794,6 +811,7 @@
 		</footer>
 
 	</div>
+	<script src="../assets/greed-market.js"></script>
 	<script>
 		/* The launch switch. Until the game is up, every Play button reads as pre-launch and points to X.
 		   Set live to true to turn the real links on; set greedAddress and greedBuyUrl once the coin exists. */
@@ -825,6 +843,7 @@
 					() => (copy.textContent = 'SELECCIÓNALA PARA COPIAR'),
 				);
 			});
+			GreedMarket.mount(document.querySelector('[data-greed-market]'), 'es-ES', { updated: 'Actualizado', unavailable: 'Precios no disponibles ahora' });
 			const buy = live.querySelector('[data-greed-buy]');
 			if (LAUNCH.greedBuyUrl) buy.href = LAUNCH.greedBuyUrl;
 			else buy.hidden = true;
