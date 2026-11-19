@@ -229,6 +229,13 @@ test('the rules page has the nine sections, in English and in Spanish, with the 
 	assert.match(guideSpanish, /<h1[^>]*>CÓMO JUGAR<\/h1>/);
 });
 
+test('the rules explain karma and insider tips, in English and in Spanish', () => {
+	assert.match(guide, /<p style="margin: 0">Every dirty play costs karma\./);
+	assert.match(guide, /<p style="margin: 0">Buy an insider tip and I'll tell you what hits a company next, and when\./);
+	assert.match(guideSpanish, /<p style="margin: 0">Cada jugada sucia te cuesta karma\./);
+	assert.match(guideSpanish, /<p style="margin: 0">Compra un dato de información privilegiada/);
+});
+
 test('the Spanish rules leave nothing in English, and say the game itself is still in English', () => {
 	const kept = words(guide).filter((t) => words(guideSpanish).includes(t));
 	assert.deepEqual(kept.filter((t) => !['STONKSTREET', 'GREED'].includes(t)), []);
