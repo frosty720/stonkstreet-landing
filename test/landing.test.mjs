@@ -220,13 +220,22 @@ test('each home page links to the full rules in its own language', () => {
 	assert.deepEqual(anchors(spanish).filter((a) => a.href === 'como-jugar/').map((a) => a.text), ['LEE TODAS LAS REGLAS']);
 });
 
-test('the rules page has the nine sections, in English and in Spanish, with the same number of lines in each', () => {
-	assert.deepEqual(sections(guide).map(([title]) => title), ['Cash and the paycheck', 'Trading moves prices', 'The economy', 'New listings', 'Taking control', 'The CEO desk', 'Dirty plays and getting caught', 'Seasons and prizes', 'GREED']);
-	assert.equal(sections(guideSpanish).length, 9);
+test('the rules page has the eleven sections, in English and in Spanish, with the same number of lines in each', () => {
+	assert.deepEqual(sections(guide).map(([title]) => title), ['Cash and the paycheck', 'Trading moves prices', 'The economy', 'Futures', 'New listings', 'Taking control', 'The CEO desk', 'Dirty plays and getting caught', 'Fights for control', 'Seasons and prizes', 'GREED']);
+	assert.equal(sections(guideSpanish).length, 11);
 	assert.deepEqual(sections(guideSpanish).map(([, lines]) => lines), sections(guide).map(([, lines]) => lines));
 	assert.match(guide, /<html lang="en">/);
 	assert.match(guideSpanish, /<html lang="es">/);
 	assert.match(guideSpanish, /<h1[^>]*>CÓMO JUGAR<\/h1>/);
+});
+
+test('the rules explain calls, in English and in Spanish', () => {
+	assert.match(guide, /<p style="margin: 0">A call is the opposite bet: it pays you if that stock's average price over its life ends above your strike/);
+	for (const [page, start] of [[guide, 'A call is the opposite bet'], [guideSpanish, 'Un call es la apuesta contraria']]) {
+		const line = new RegExp(`<p style="margin: 0">(${start}[^<]*)</p>`).exec(page)[1];
+		assert.equal(/\d/.test(line), false);
+	}
+	assert.match(guideSpanish, /<p style="margin: 0">Un call es la apuesta contraria: te paga si el precio medio de esa acción durante su vida termina por encima de tu precio de ejercicio/);
 });
 
 test('the rules explain karma and insider tips, in English and in Spanish', () => {
@@ -234,6 +243,38 @@ test('the rules explain karma and insider tips, in English and in Spanish', () =
 	assert.match(guide, /<p style="margin: 0">Buy an insider tip and I'll tell you what hits a company next, and when\./);
 	assert.match(guideSpanish, /<p style="margin: 0">Cada jugada sucia te cuesta karma\./);
 	assert.match(guideSpanish, /<p style="margin: 0">Compra un dato de información privilegiada/);
+});
+
+test('the rules explain fights for control, in English and in Spanish, with no digits', () => {
+	assert.match(guide, /<h2[^>]*>Fights for control<\/h2>/);
+	assert.match(guide, /<p style="margin: 0">Cross five percent of a company/);
+	assert.match(guide, /<p style="margin: 0">Greenmail: you pay the raider a premium for its stake, from company cash first and your own for the rest/);
+	assert.match(guide, /<p style="margin: 0">Raider bots hunt companies/);
+	assert.match(guide, /<p style="margin: 0">The poison pill.*costs a slice of the company's value, from company cash first and your own for the rest.*only against a bid that could take your control/);
+	assert.match(guideSpanish, /<h2[^>]*>Peleas por el control<\/h2>/);
+	assert.match(guideSpanish, /<p style="margin: 0">Si cruzas el cinco por ciento/);
+	assert.match(guideSpanish, /<p style="margin: 0">El greenmail: le pagas al asaltante una prima por su parte, primero con el efectivo de la empresa y el resto con el tuyo/);
+	assert.match(guideSpanish, /<p style="margin: 0">Unos bots asaltantes cazan empresas/);
+	assert.match(guideSpanish, /<p style="margin: 0">La píldora venenosa.*Cuesta una parte del valor de la empresa, primero con el efectivo de la empresa y el resto con el tuyo.*solo contra una oferta que pueda quitarte el control/);
+	for (const page of [guide, guideSpanish]) {
+		const section = page.match(/<h2[^>]*>(?:Fights for control|Peleas por el control)<\/h2>([\s\S]*?)<\/article>/)[1];
+		assert.equal(/\d/.test(section.replace(/<[^>]+>/g, '')), false);
+	}
+});
+
+test('the rules explain futures, in English and in Spanish, in four lines with no digits', () => {
+	assert.match(guide, /<p style="margin: 0">OIL and GOLD sit at the top of the Street\. Open one to bet on its price without owning any\./);
+	assert.match(guide, /<p style="margin: 0">[^<]*capped at half your net worth/);
+	assert.match(guide, /<p style="margin: 0">[^<]*liquidated[^<]*never lose more than you put up/);
+	assert.match(guideSpanish, /<p style="margin: 0">OIL y GOLD están arriba del todo en la Calle\. Abre uno para apostar a su precio sin tener nada\./);
+	for (const page of [guide, guideSpanish]) assert.equal(/FUTURES/.test(page), false);
+	assert.match(guideSpanish, /<p style="margin: 0">[^<]*como mucho la mitad de tu patrimonio neto/);
+	assert.match(guideSpanish, /<p style="margin: 0">[^<]*se liquida[^<]*nunca pierdes más de lo que pusiste/);
+	for (const [page, title] of [[guide, 'Futures'], [guideSpanish, 'Futuros']]) {
+		const section = page.match(new RegExp(`<h2[^>]*>${title}</h2>([\\s\\S]*?)</article>`))[1];
+		assert.equal(section.match(/<p /g).length, 4);
+		assert.equal(/\d/.test(section.replace(/<[^>]+>/g, '')), false);
+	}
 });
 
 test('the Spanish rules leave nothing in English, and say the game itself is still in English', () => {
