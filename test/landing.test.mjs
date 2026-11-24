@@ -220,9 +220,9 @@ test('each home page links to the full rules in its own language', () => {
 	assert.deepEqual(anchors(spanish).filter((a) => a.href === 'como-jugar/').map((a) => a.text), ['LEE TODAS LAS REGLAS']);
 });
 
-test('the rules page has the eleven sections, in English and in Spanish, with the same number of lines in each', () => {
-	assert.deepEqual(sections(guide).map(([title]) => title), ['Cash and the paycheck', 'Trading moves prices', 'The economy', 'Futures', 'New listings', 'Taking control', 'The CEO desk', 'Dirty plays and getting caught', 'Fights for control', 'Seasons and prizes', 'GREED']);
-	assert.equal(sections(guideSpanish).length, 11);
+test('the rules page has the twelve sections, in English and in Spanish, with the same number of lines in each', () => {
+	assert.deepEqual(sections(guide).map(([title]) => title), ['Cash and the paycheck', 'Trading moves prices', 'The economy', 'Futures', 'New listings', 'Taking control', 'The CEO desk', 'Dirty plays and getting caught', 'Earnings season', 'Fights for control', 'Seasons and prizes', 'GREED']);
+	assert.equal(sections(guideSpanish).length, 12);
 	assert.deepEqual(sections(guideSpanish).map(([, lines]) => lines), sections(guide).map(([, lines]) => lines));
 	assert.match(guide, /<html lang="en">/);
 	assert.match(guideSpanish, /<html lang="es">/);
@@ -277,6 +277,26 @@ test('the rules explain futures, in English and in Spanish, in four lines with n
 	}
 });
 
+test('the rules explain earnings season, in English and in Spanish, in six lines with no digits', () => {
+	assert.match(guide, /<p style="margin: 0">Every earnings season, each company reports its profit against an estimate\. A beat tends to lift the stock and a miss tends to sink it\./);
+	assert.ok(guide.includes('<p style="margin: 0">A company\'s profit is its business assets times the return they earn. Better managers lift a weak return over time, and poor ones let a strong one slip.</p>'));
+	assert.ok(guide.includes('<p style="margin: 0">Scandals and lawsuits cut a company\'s return, hit products lift it, and new managers can change where it is heading.</p>'));
+	assert.ok(guideSpanish.includes('<p style="margin: 0">La ganancia de una empresa es su capital de negocio por la rentabilidad que obtiene. Los buenos directivos levantan una rentabilidad floja con el tiempo, y los malos dejan caer una buena.</p>'));
+	assert.ok(guideSpanish.includes('<p style="margin: 0">Los escándalos y las demandas recortan la rentabilidad de una empresa, los productos de éxito la suben, y unos directivos nuevos pueden cambiar su rumbo.</p>'));
+	assert.match(guide, /<p style="margin: 0">Streaks run:[^<]*A report can still surprise you\./);
+	assert.match(guide, /<p style="margin: 0">A put or a call that runs past a report costs more/);
+	assert.match(guide, /<p style="margin: 0">An insider tip on a report tells you the result before it lands\./);
+	assert.match(guideSpanish, /<p style="margin: 0">En cada temporada de resultados, cada empresa informa de sus ganancias frente a una estimación\. Superarla suele subir la acción y quedarse corta suele hundirla\./);
+	assert.match(guideSpanish, /<p style="margin: 0">Las rachas siguen:[^<]*todavía puede sorprenderte\./);
+	assert.match(guideSpanish, /<p style="margin: 0">Un put o un call que corre más allá de un informe cuesta más/);
+	assert.match(guideSpanish, /<p style="margin: 0">Un dato de información privilegiada sobre un informe te dice el resultado/);
+	for (const [page, title] of [[guide, 'Earnings season'], [guideSpanish, 'Temporada de resultados']]) {
+		const section = page.match(new RegExp(`<h2[^>]*>${title}</h2>([\\s\\S]*?)</article>`))[1];
+		assert.equal(section.match(/<p /g).length, 6);
+		assert.equal(/\d/.test(section.replace(/<[^>]+>/g, '')), false);
+	}
+});
+
 test('the Spanish rules leave nothing in English, and say the game itself is still in English', () => {
 	const kept = words(guide).filter((t) => words(guideSpanish).includes(t));
 	assert.deepEqual(kept.filter((t) => !['STONKSTREET', 'GREED'].includes(t)), []);
@@ -302,4 +322,27 @@ test('the rules pages find their way: home, the other language, pictures and the
 	}
 	// No Play button here, so the launch switch stays in the two home pages only.
 	for (const page of [guide, guideSpanish]) assert.equal(/data-play|LAUNCH/.test(page), false);
+});
+
+test('the CEO desk section carries the four lever lines exactly, in English and in Spanish, with no digits', () => {
+	const lines = {
+		en: [
+			'Run a company and its desk opens: pay yourself a salary, pay dividends, buy back shares or issue new ones.',
+			'A fat salary drains company cash, and that drags down the shares you own. Choose.',
+			'Set how much of the profit goes to research and how fast the company grows. Research costs profit now and builds the business over the next year, and nudges the managers a little; cut it and earnings jump, but the business stops growing.',
+			'Grow too fast and the return wears down. You can pay to replace weak managers, but the new team is a roll of the dice. Companies nobody runs are steered by their board.',
+		],
+		es: [
+			'Dirige una empresa y se abre su despacho: págate un sueldo, reparte dividendos, recompra acciones o emite nuevas.',
+			'Un sueldazo desocupa la caja de la empresa, y eso tumba las acciones que tienes. Tú decides.',
+			'Decide cuánta ganancia va a investigación y a qué ritmo crece la empresa. La investigación cuesta ganancia ahora y hace crecer el negocio durante el año siguiente, y mejora un poco a los directivos; recórtala y los resultados saltan, pero el negocio deja de crecer.',
+			'Crece demasiado rápido y la rentabilidad se desgasta. Puedes pagar para cambiar a unos directivos flojos, pero el equipo nuevo es una tirada de dados. Las empresas que nadie dirige las guía su consejo.',
+		],
+	};
+	for (const [page, title, expected] of [[guide, 'The CEO desk', lines.en], [guideSpanish, 'El despacho del CEO', lines.es]]) {
+		const body = new RegExp(`<h2[^>]*>${title}</h2>([\\s\\S]*?)</article>`).exec(page)[1];
+		const found = [...body.matchAll(/<p style="margin: 0">([^<]*)<\/p>/g)].map(([, line]) => line);
+		assert.deepEqual(found, expected);
+		for (const line of found.slice(2)) assert.equal(/\d/.test(line), false);
+	}
 });
