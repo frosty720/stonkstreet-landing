@@ -324,19 +324,21 @@ test('the rules pages find their way: home, the other language, pictures and the
 	for (const page of [guide, guideSpanish]) assert.equal(/data-play|LAUNCH/.test(page), false);
 });
 
-test('the CEO desk section carries the four lever lines exactly, in English and in Spanish, with no digits', () => {
+test('the CEO desk section carries the five desk lines exactly, in English and in Spanish, with no digits', () => {
 	const lines = {
 		en: [
 			'Run a company and its desk opens: pay yourself a salary, pay dividends, buy back shares or issue new ones.',
 			'A fat salary drains company cash, and that drags down the shares you own. Choose.',
 			'Set how much of the profit goes to research and how fast the company grows. Research costs profit now and builds the business over the next year, and nudges the managers a little; cut it and earnings jump, but the business stops growing.',
 			'Grow too fast and the return wears down. You can pay to replace weak managers, but the new team is a roll of the dice. Companies nobody runs are steered by their board.',
+			'Put your own cash in for new shares, and take it back later by handing those shares back. You always get the worst of the market price, its recent average and the fair price.',
 		],
 		es: [
 			'Dirige una empresa y se abre su despacho: págate un sueldo, reparte dividendos, recompra acciones o emite nuevas.',
 			'Un sueldazo desocupa la caja de la empresa, y eso tumba las acciones que tienes. Tú decides.',
 			'Decide cuánta ganancia va a investigación y a qué ritmo crece la empresa. La investigación cuesta ganancia ahora y hace crecer el negocio durante el año siguiente, y mejora un poco a los directivos; recórtala y los resultados saltan, pero el negocio deja de crecer.',
 			'Crece demasiado rápido y la rentabilidad se desgasta. Puedes pagar para cambiar a unos directivos flojos, pero el equipo nuevo es una tirada de dados. Las empresas que nadie dirige las guía su consejo.',
+			'Mete tu propio efectivo a cambio de acciones nuevas y recupéralo después devolviendo esas acciones. Siempre te toca el peor precio entre el de mercado, su media reciente y el precio justo.',
 		],
 	};
 	for (const [page, title, expected] of [[guide, 'The CEO desk', lines.en], [guideSpanish, 'El despacho del CEO', lines.es]]) {
